@@ -1,0 +1,25 @@
+VLANs - Voice VLAN
+
+- The Voice VLAN is used to seperate Voice traffic from an IP phone and data traffic from an end host
+- The end host connects to the IP phone and the IP phone connects to the switch
+- The end host is not directly connected to the switch
+- However the link between the IP phone and the switch carries traffic for two VLANs, therefore the switch interface acts like a Trunk port, but we do not
+  configure it as one
+  
+  switch ---------- IP Phone ----------- PC
+  
+- The link between the PC and the IP Pone carries Data traffic, lets say for vlan 10
+- The link between the IP Phone and the switch carries Data traffic for vlan 10 and also Voice traffic for lets say vlan 100
+
+### Configuration
+
+switch>en
+switch#conf t
+switch(config)#vlan 10
+switch(config-vlan)#name Sales
+switch(config-vlan)#vlan 100
+switch(config-vlan)#name Voice
+switch(config-vlan)#interface fa0/1
+switch(config-if)#switchport mode access      <- Configure as a standard Access Port
+switch(config-if)#switchport access vlan 10   <- Add interface to vlan 10 (Sales)
+switch(config-if)#switchport voice vlan 100   <- Configure the Voice vlan on the interface
