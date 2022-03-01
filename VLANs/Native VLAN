@@ -1,0 +1,17 @@
+VLANs - Native VLAN
+
+- A switch trunk port forward ethernet frames and adds an additional VLAN ID header to identify which VLAN each frame belongs to, the switch can then forward
+  it out the relevant interface
+- The native VLAN is the vlan used for all untagged frames. If a frame arrives on a switch without a VLAN ID it places it in the Native VLAN
+- By default the Native VLAN is vlan 1, but there are known attacks that can be a security risk so it is best practice to change the Native VLAN to an unused VLAN
+
+### Configuration
+
+switch>en
+switch#conf t
+switch(config)#vlan 199
+switch(config-vlan)#name Native
+switch(config-vlan)#interface g0/1    <- Trunk Port
+switch(config-if)#switchport trunk encapsulation dot1q
+switch(config-if)#switchport mode trunk
+switch(config-if)#switchport trunk native vlan 199
