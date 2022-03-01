@@ -1,0 +1,7 @@
+OSPF - Single Area
+
+- Single Area OSPF can support up to hundreds of routers, but Cisco recommend 50 routers is the limit, after this you should be looking an Multi-Area OSPF
+  to lighten the load on the routers CPUs
+  
+### Configuration
+
