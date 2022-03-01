@@ -1,0 +1,21 @@
+VLAN - Access Ports
+
+### Configuration
+
+- Configure vlan 10 (Engineering) and assign switchport FastEthernet0/1 to it
+
+switch>en
+switch#conf t
+switch(config)#vlan 10
+switch(config-vlan)#name Engineering
+switch(config-vlan)#interface fa0/1
+switch(config-if)#switchport mode access
+switch(config-if)#switchport access vlan 10
+
+- Configure interfaces FastEthernet0/1 - FastEthernet0/5 and assign to vlan 10
+
+switch>en
+switch#conf t
+switch(config)#interface range fa0/1 - 5
+switch(config-if-range)#switchport mode access
+switch(config-if-range)#switchport access vlan 10
