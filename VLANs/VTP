@@ -1,0 +1,32 @@
+VTP - VLAN Trunking Protocol
+
+- Allows you to add, edit or delete VLANs on switches that are configured as VTP Servers
+- Other switches can then be configured as VTP clients and then synchronise their VLAN Databases with the VTP Servers
+- Convenient for large campuses
+- Port level VLAN configuration is still required on the VTP Client switches
+
+### VTP Modes
+
+VTP Server
+
+- Can add, edit or delete VLANs
+- Will synchronise its VLAN Database from another VTP Server with a higher revision number
+- This can cause issues if the new VFP Server does not have the required VLANs configured, resulting in VLANs being deleted
+
+VTP Client
+
+- Cannot add, edit or delete VLANs
+- Will synchronise its VLAN Database from a VTP Server with the highest revision number
+
+VTP Transparent
+
+- Does not participate in the VTP Domain
+- Does not advertise or learn VLAN information, but will pass it on
+- Can add, edit or delete VLANs in its own local VLAN Database
+- Any VLANs that are configured on the VTP Server need to e manually configured on here also
+
+### Configuration
+
+switch>en
+switch#conf t
+switch(config)#vtp mode server | client | transparent
