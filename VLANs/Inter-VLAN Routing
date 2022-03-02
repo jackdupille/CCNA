@@ -66,14 +66,18 @@ L3_switch(config-if)#ip add 192.168.20.1 255.255.255.0
 
 L3_switch(config-if)#interface fa0/1
 L3_switch(config-if)#no switchport
-L3_switch(config-if)#ip add 10.10.10.2 255.255.255.252
+L3_switch(config-if)#ip add 10.10.100.2 255.255.255.252
 L3_switch(config-if)#exit
-L3_switch(config)#ip route 0.0.0.0 0.0.0.0 10.10.10.1   <- Set up a default static route to our router at 10.10.10.1
+L3_switch(config)#ip route 0.0.0.0 0.0.0.0 10.10.100.1   <- Set up a default static route to our router at 10.10.10.1
 
 router>en
 router#conf t
 router(config)#interface fa0/1
-router(config-if)#ip add 10.10.10.1 255.255.255.252
+router(config-if)#ip add 10.10.100.1 255.255.255.252
 router(config-if)#no shut
 router(config-if)#exit
-router(config)#ip route 0.0.0.0 0.0.0.0 <ISP IP ADDRESS>  <- Set up a default static route to send any other traffic to our ISP
+router(config)#ip route 192.168.0.0 255.255.0.0 10.10.100.2   <- Static route to route traffic from both VLANs in to the LAN
+router(config)#ip route 0.0.0.0 0.0.0.0 <ISP IP ADDRESS>      <- Set up a default static route to send any other traffic to our ISP
+
+NOTE - The static summary route from the router to the LAN "ip route 192.168.0.0 255.255.0.0 10.10.100.2" in option 3 is required because the router is no longer 
+       directly connected to the LAN networks, unlike in the first two options
