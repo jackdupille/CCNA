@@ -61,3 +61,19 @@ L3_switch(config)#interface vlan 10
 L3_switch(config-if)#ip add 192.168.10.1 255.255.255.0
 L3_switch(config-if)#interface vlan 20
 L3_switch(config-if)#ip add 192.168.20.1 255.255.255.0
+
+- Now we need to configure the interface connected to our router to enable traffic to breakout to the internet
+
+L3_switch(config-if)#interface fa0/1
+L3_switch(config-if)#no switchport
+L3_switch(config-if)#ip add 10.10.10.2 255.255.255.252
+L3_switch(config-if)#exit
+L3_switch(config)#ip route 0.0.0.0 0.0.0.0 10.10.10.1   <- Set up a default static route to our router at 10.10.10.1
+
+router>en
+router#conf t
+router(config)#interface fa0/1
+router(config-if)#ip add 10.10.10.1 255.255.255.252
+router(config-if)#no shut
+router(config-if)#exit
+router(config)#ip route 0.0.0.0 0.0.0.0 <ISP IP ADDRESS>  <- Set up a default static route to send any other traffic to our ISP
