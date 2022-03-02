@@ -1,0 +1,63 @@
+Inter-VLAN Routing
+
+- There are 3 options available to allow our different VLANs to communicate with each other
+
+1. Seperate interfaces on the router for each VLAN
+2. ROAS (Router On A Stick), one physical interface with virtual sub-interfaces for each VLAN
+3. SVIs (Switched Virtual Interfaces), Layer 3 switch with virtual VLAN interfaces for each VLAN
+
+### Option 1 - Seperate Interfaces ###
+
+- Poor scalability
+
+# VLAN 10
+router>en
+router#conf t
+router(config)#interface fa0/1
+router(config-if)#ip add 192.168.10.1 255.255.255.0
+router(config-if)#no shutdown
+
+# VLAN 20
+router(config)#interface fa0/2
+router(config-if)#ip add 192.168.20.1 255.255.255.0
+router(config-if)#no shutdown
+
+etc...
+
+
+### Option 2 - ROAS ###
+
+- The switch connecting to the Router will need to be configured as a Trunk port
+
+# VLAN 10
+router>en
+router#conf t
+router(config)#interface fa0/1.10
+router(config-subif)#encapsulation dot1q 10
+router(config-subif)#ip add 192.168.10.1 255.255.255.0
+
+
+# VLAN 20
+router>en
+router#conf t
+router(config)#interface fa0/1.20
+router(config-subif)#encapsulation dot1q 20
+router(config-subif)#ip add 192.168.20.1 255.255.255.0
+
+router(config-subif)#interface fa0/1
+router(config-if)#no shutdown         <- Remember to bring the physical interface UP
+
+
+
+### Option 3 - SVIs ###
+
+- The Layer 3 switch will still most likely connect to a router on the LAN which will handle WAN connectivity
+
+# VLAN 10
+L3_switch>en
+L3_switch#conf t
+L3_switch(config)#ip routing      <- Remember to enable routing on the Switch!
+L3_switch(config)#interface vlan 10
+L3_switch(config-if)#ip add 192.168.10.1 255.255.255.0
+L3_switch(config-if)#interface vlan 20
+L3_switch(config-if)#ip add 192.168.20.1 255.255.255.0
