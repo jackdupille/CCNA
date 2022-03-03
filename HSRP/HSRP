@@ -1,0 +1,62 @@
+HSRP - Hot Standyby Routing Protocol
+
+- Popular redundancy protocol within Cisco networks
+- Layer 3 redundancy is easy enough to configure using static routes and editing the Administrative Distance (AD)
+- Consider the following;
+
+        ISP1                                        ISP2
+        
+        
+        R1                                          R2
+              
+        
+        Dist/CoreSW1                                Dist/CoreSW2
+        
+        
+        AccSW1                                      AccSW2
+        
+        
+        PCs                                         PCs
+        
+- In this topology PCs connect to Access Layer switches, the Access Layer switches both connected to each Distribution/Core layer switches
+- The two Distribution/Core layer switches connect to each other
+- Dist/CoreSW1 connects to R1, which then connects to ISP1
+- Dist/CoreSW2 connects to R2, which then connects to ISP2
+- R1 and R2 connect to each other
+
+- We can configure L3 redundancy on R1 like so;
+
+router>en
+router#conf t
+router(config)#ip route 0.0.0.0 0.0.0.0 <ISP1>         <- Default static route up to the ISP
+router(config)#ip route 0.0.0.0 0.0.0.0 <R2 Link> 5    <- Back up default static route over the link to R2 then out to ISP2, should ISP1 go down, notice higher AD
+router(config)#ip route <LAN Network> <R2 Link>        <- Static route for the LAN network via R2, should the Connected link via Dist/CoreSW1 go down
+
+### HSRP Configuration
+
+Router 1:
+
+router1>en
+router1#conf t
+router1(config)#interface fa0/1
+router1(config-if)#ip add 10.10.10.2 255.255.255.0
+router1(config-if)#no shutdown
+router1(config-if)#standby 1 ip 10.10.10.1
+
+Router 2:
+
+router2>en
+router2#conf t
+router2(config)#interface fa0/1
+router2(config-if)#ip add 10.10.10.3 255.255.255.0
+router2(config-if)#no shutdown
+router2(config-if)#standby 1 ip 10.10.10.1
+
+- NOTE - Identical configurations on each router except the IP address on the physical interface, the last line is the HSRP configuration, everything before is
+         just a simple interface IP configuration
+         By default the router with the higher IP address will become active whilst the router with the lower IP will becom standby
+         
+### Verification
+
+router1#show standby  <- View Virtual IP, the State, Virtual MAC address, Active router is local, Standby router is 10.10.10.3
+
