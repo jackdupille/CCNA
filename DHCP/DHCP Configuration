@@ -1,0 +1,39 @@
+DHCP Configuration
+
+### Cisco Router
+
+Network: 10.10.10.0/24
+Range: 10.10.10.100 - 250
+Seperate DNS Server: 10.10.10.10
+
+router>en
+router#conf t
+router(config)#ip dhcp excluded-address 10.10.10.1 10.10.10.10
+router(config)#ip dhcp pool 10.10.10.0_Clients
+router(dhcp-config)#network 10.10.10.0 255.255.255.0
+router(dhcp-config)#default-router 10.10.10.1
+router(dhcp-config)#dns-server 10.10.10.10
+
+### Verification Commands
+
+router#show ip dhcp pool  <- Will give information on the DHCP pool and how many IPs have been leased out
+
+router#show ip dhcp binding   <- Will identify the IPs that have been leased out and the MAC Address of the client device
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### External DHCP Server
+
+Network: 10.10.10.0/24
+Range: 10.10.10.100 - 250
+Seperate DHCP & DNS Server: 10.10.20.10   <- Note, on a different subnet
+
+- A DHCP Discover message from a DHCP Client is a Broadcast message and routers by default do not forward Broadcasts, therefore the DHCP Discover message will
+  never reach the DHCP Server on the other subnet
+  
+- To fix this we can configure the router to forward DHCP Discover messages, we configure this on the router interface that is RECEIVING the DHCP Discover message
+
+router>en
+router#conf t
+router(config)#interface fa0/1
+router(config-if)#helper-address 10.10.20.10
