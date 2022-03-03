@@ -50,4 +50,8 @@ router>en
 router#conf t
 router(config)#interface fa0/1    <- Interface facing the ISP
 router(config-if)#ip address dhcp
-router(config-if)#no shutdow
+router(config-if)#no shutdown
+
+# Verification
+router#show ip interface brief  <- Will say Method=DHCP
+router#show ip lease  <- Identifies the lease and subnet mask obtained and the IP of the DHCP server etc
