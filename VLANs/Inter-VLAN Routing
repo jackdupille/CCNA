@@ -24,6 +24,11 @@ router(config-if)#no shutdown
 
 etc...
 
+- NOTE - The interfaces from the Switch to the router will need to be access ports and be in the required VLAN;
+
+e.g interface fa0/1
+    swithcport mode access
+    switchport access vlan 10
 
 ### Option 2 - ROAS ###
 
