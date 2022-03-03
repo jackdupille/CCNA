@@ -1,0 +1,39 @@
+HSRP Advanced Topics
+
+### Priority and Pre-emption
+
+- This enables us to choose which router is Active and which is Standby
+- By default the router with the higher IP is Active
+- We can set the priority to change this behaviour, the router with the higher priority will become Active
+- If we enable Pre-emption, when a router with a higher priority comes back online after a failure, it will transition back to being Active
+
+### Configuration
+
+Router 1:
+
+router1>en
+router1#conf t
+router1(config)#interface fa0/1
+router1(config-if)#ip address 10.10.10.2 255.255.255.0
+router1(config-if)#standby 1 ip 10.10.10.1
+router1(config-if)#standby 1 priority 110
+router1(config-if)#standby 1 preempt
+
+Router 2:
+
+router2>en
+router2#conf t
+router2(config)#interface fa0/1
+router2(config-if)#ip address 10.10.10.3 255.255.255.0
+router2(config-if)#standby 1 ip 10.10.10.1
+router2(config-if)#standby 1 priority 90
+router2(config-if)#standby 1 preempt
+
+- The above configuration will make Router 1 the Active router because it has a higher Priority value
+- Should Router 1 fail and Router 2 become Active, once Router 1 is back online it will once again become the Active Router as it is configured with Pre-emption
+
+
+### "Active/Active HSRP"
+
+- We can configure our network so that one vlan sends traffic to ROuter 1 and another vlan sends traffic to Router 2
+
