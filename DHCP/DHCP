@@ -1,0 +1,12 @@
+DHCP - Dynamic Host Configuration Protocol
+
+### Negotiation Process
+
+1. DHCP Client looks for its DHCP Server by sending out a Broadcast DHCP Discover message, and asking for an IP
+2. DHCP Server reponds with a Unicast/Broadcast DHCP Offer message and an available IP address
+3. DHCP Client responds with another Broadcast message known as a DHCP Request either accepting or refusing the IP on offer
+4. DHCP Server sends the last message, a Unicast/Broadcast DHCP Ack to acknowledge the DHCP Request
+
+There are two main options for configuring a DHCP server
+1. Use the Cisco Router to act as the DHCP Server also
+2. Use an external DHCP Server
