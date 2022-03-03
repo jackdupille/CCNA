@@ -37,3 +37,17 @@ router>en
 router#conf t
 router(config)#interface fa0/1
 router(config-if)#helper-address 10.10.20.10
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### Router as a DHCP Client
+
+- This wowuld be the case if an Office has not bought a fixed public IP address, but still requires internet connectivity
+- The ISP will provide an IP via DHCP
+- This is exactly what happens with your home connectivity
+
+router>en
+router#conf t
+router(config)#interface fa0/1    <- Interface facing the ISP
+router(config-if)#ip address dhcp
+router(config-if)#no shutdow
