@@ -1,0 +1,50 @@
+Port Fast, BPDU Guard and Root Guard
+
+- It can take up to 50 seconds for traditional STP to transition a port from Blocking to Forwarding
+- It is not possible for a loop to be formed when a switch is connected to a single end host, suchh as a PC or server
+- You can make the port become a forwarding port immediately by disabling STP on the interface
+
+switch1#conf t
+switch1(config)#interface fa0/1
+switch1(config-if)#spanning-tree portfast
+
+- We can make Port Fast the default on the switch for all interface
+
+switch1(config)#spanning-tree portfast default
+
+- Then remember to disable portfast on any interfaces connected to another switch
+
+switch1(config)#interface fa0/2
+switch1(config-if)#no spanning-tree portfast default
+
+- However Port Fast can be dangerous, if a user removes the PC or server connected to the Port Fast enabled switch port and instead plugs in another switch which
+  they connect to switch1 and switch2, a loop will be formed creating a broadcast storm
+- This is where BPDU Guard comes in
+- We can enable BPDU Guard on all Port Fast enabled interfaces, then if the interface receives a BPDU (which only switches send out), the receiving switch will
+  shutdown the interface
+
+switch1(config)#interface fa0/1
+switch1(config-if)#spanning-tree portfast
+switch1(config-if)#spanning-tree bpduguard enable
+
+- Again we can enable it across all interfaces on the switch when enabling Port Fast globally
+
+switch1(config)#spanning-tree portfast bpduguard enable default
+
+
+
+### Root Guard
+
+- Prevents an unintended switch from becoming the Root Bridge
+- If an old switch gets plugged in to the network and it happens to have a higher priority set on it from an old configuration, it will take over the role of
+  Root Bridge
+- We can prevent this by enabling Root Guard on the interfaces connecting to the new switch
+- Root Guard will then place the interfaces in to a state of root-inconsistent
+
+switch1(config)#interface fa0/3
+switch1(config-if)#spanning-tree guard root
+
+
+
+
+  
