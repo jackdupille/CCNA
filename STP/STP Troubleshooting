@@ -1,0 +1,64 @@
+STP Troubleshooting
+
+### Scenario
+
+The Network Operations Centre has reported that traffic is not following the most direct path from the branch office PCs to the Internet. Your task at this stage
+is to verify this.
+
+Step 1: If HSRP is configured, check which router is Active and which is Standby
+
+	router#show standby
+	
+Step 2: Check the PCs have connectivity to the destination IP
+
+	PC>ping <destination IP>
+	
+Step 3: Check the Layer 3 path the PCs are taking to reach the destination IP, if both going via the Active router, then the HSRP configuration is working
+
+	PC>tracert <destination IP>
+	
+Step 4: Check which VLANs the PCs are in on the Access Layer switches
+
+	switch#show vlan brief
+	
+Step 5: Check the interfaces on the Dist/Core Layer switches connecting to the routers have also been configured as Access ports in the same VLAN as the PCs
+
+	Dist/CoreSW#show run
+	
+Step 6: On all switches, check the interfaces connecting to other switches have been configured as Trunk ports
+
+	switch#show run
+	
+Step 7: If everything up to now is OK, then HSRP and VLAN configuration is good
+
+Step 8: Check STP Configuration, one of the Dist/Core Layer switches should be the Root Bridge, if an Access Layer switch is the Root Bridge, that is a problem
+
+	Dist/CoreSW#show spanning-tree vlan <ID>
+	
+Step 9: Identify how the Root Bridge has been elected, has Priority been manipulated or is the lowest MAC address the result? Check on all switches
+
+	switch#show run | include priority
+	
+Step 10: Check all switches agree on the Root Bridge by checking the Root Bridge MAC address
+
+	switch#show spanning-tree vlan <ID>
+	
+Step 11: Start diagraming the topology, we now know the Root Bridge
+		 Add all the port roles, DP, RP, ALT (BLK)
+		 
+Step 12: Remove any blocking links to simplify the topology and show the spanning tree itself
+
+Step 13: Document the paths each PC will take
+
+Step 14: Verify the paths
+		 Get the Virtual MAC address for HSRP
+		 
+		 	R1# show standby
+			
+		 Clear ARP cache on the PCs and ping the HSRP Virtual IP
+		 View the MAC address table on each Access Layer switch and determine which interface traffic is forwarded out to reach the HSRP Virtual MAC address
+		 
+		 	switch#show mac address-table
+			
+		 View the MAC address table on all hop switches to map out the path
+		
