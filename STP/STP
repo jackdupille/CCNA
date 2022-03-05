@@ -1,2 +1,69 @@
 STP - Spanning Tree Protocol
 
+- Used to prevent Layer 2 Loops between switces
+- Unlilke the Layer 3 IP Header, the Layer 2 Ethernet Header DOES NOT have a TTL (Time To Live) Field to prevent loops
+- These Layer 2 Loops are caused by Broadacast traffic such as ARP Requests and DHCP Discover messages
+- These loops are commonly referred to as Broadcast Storms and are devastating to networks
+- STP prevents Broadcast Storms by detecting potential loops in the network and placing relevant switch ports in to a Blocking state
+- STP performs automatic failover, and transitions an interface from Blocking to Forwarding
+- Legacy STP Convergence can take up to 50 seconds
+
+### How STP Works
+
+- Enabled by default on all vendor switches
+- When a switch comes online it sends out BPDUs (Bridge Protocol Data Units) out all ports. These are used to detect other switches and potential loops
+- The switch will not forward traffic out any poprt until it is certain it is loop free
+- All ports start in a Blocking state, if no loop then the port transitions to a Forwarding state, process can take up to 50 seconds
+
+The Bridge ID
+
+- The BPDU contains the switches Bridge ID, which uniquely identifies it on the LAN
+- The Bridge ID contains the interfaces unique MAC address and an Admin definied Bridge Priority, 0 - 65535, 32768 is the default value
+
+The Root Bridge
+
+- A Root Bridge is elected based on the Bridge ID values
+- The switch with the lowest Priority vlaue is elected the Root Bridge
+- In the event of a Priority value tie, the switch with the lowest MAC address is elected the Root Bridge
+- Other switches will then detect their lowest cost path to the Root Bridge, these links will then be placed in a Forwarding state
+
+Root Ports
+
+- Each switches exit interface on the lowest cost path to the Root Bridge is elected as the Root Port
+
+Load Balancing
+
+- STP does NOT perform load balancing
+- If a switch has an equal cost path to the Root Bridge via two switches, it will select the path connected to the neighbor switch with the lowest Bridge ID
+- That interface will be placed in a Forwarding state whilsst the other link will e placed in a Blocking state
+- If a switch has multiple equal cost paths to the SAME switch, again it will not load balance and will place its port that has the lowest port ID in a
+  Forwarding state, its other ports will be in a Blocking state
+  
+Designated Ports
+
+- Ports on the neighbor switch opposite a Root Port are called Designated Ports
+- Root Ports point towards the Root Bridge, Designated Ports point away from the Root Bridge
+- Due to this nature, all ports on the Root Bridge are Designated Ports by default
+- Root Ports and Designated Ports are the most direct paths to the Root Bridge and always transition to a Forwarding state
+
+Other Links
+
+- On the remaining links between two switches, we need to determine which side of the link will be placed in a Blocking state
+- The switches determine which of them has the least cost path to the Root Bridge, if the paths are equal cost, then the lowest Bridge ID wins
+- The interface on the winning switch is elected as the Designated port on that link, and the interface on the other switch is placed in a Blocking state
+
+Blocking Ports
+
+- STP only blocks ports on one side of the link
+- The blocked port still accepts and sends BPDUs, but all other traffic is dropped
+
+How to determine the Port States
+
+1. Determine the Root Bridge first (lowest Bridge ID)
+2. All ports on the Root Bridge are Designated Ports
+3. Determine the Root Ports on the other switches (lowest cost to the Root Bridge)
+4. Ports opposite the Root Ports are Designated Ports
+5. On the remaining links, one port will be Blocking
+6. Determine the Blocking Port (highest cost path to the Root Bridge, or highest Bridge ID)
+7. Ports opposite the Blocking Port is a Designated Port
+
