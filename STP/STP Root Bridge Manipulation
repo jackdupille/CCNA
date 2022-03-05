@@ -1,0 +1,21 @@
+STP Root Bridge Manipulation
+
+- It is best practice to ensure a pair of high end core layer switches are elected as the first and second preferred Root Bridge
+- The Root Bridge election can be manipulated by configuring the Bridge Priority
+- 32768 is the default value, with a lower value being preferred
+- In the case of a tie, the lowest MAC address wins
+
+### Priority configuration
+
+core_switch1#conf t
+core_switch1(config)#spanning-tree vlan <id> root primary
+
+- This will set the priority of this Core Layer switch to 24576, lower than the default and making it the Root Bridge
+
+- If core_switch1 fails, we want to make sure that we have a backup Core Layer switch that will take over as the Root Bridge
+
+core_switch2#conf t
+core_switch2(config)#spanning-tree vlan <id> root secondary
+
+- This will set the priority to 28672, higher than core_switch1 (24576) but lower than the other switches (32768)
+
