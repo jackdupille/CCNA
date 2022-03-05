@@ -1,0 +1,15 @@
+STP Versions
+
+### IEEE Open Standards
+
+- 802.1D Spanning Tree Protocol (STP): Original STP, uses one spanning tree for all VLANs in the LAN
+- 802.1w Rapid Spanning Tree Protocol (RSTP): Improved convergence time, uses one spanning tree for all VLANs in the LAN
+- 802.1s Multiple Spanning Tree Protocol (MSTP): Enables mapping VLANs in to different spanning trees for load balancing, VLANs can be grouped in to seperate STP
+                                                 instances
+
+### Cisco Proprietary
+
+- Per VLAN Spanning Tree Plus (PVST+): ENhancement to 802.1D, seperate STP instance for each VLAN, default on Cisco switches
+- Rapid Per VLAN Spanning Tree PLus (RPVST+): Enhancement to 802.1w, Improved convergence time over PVST+, seperate STP instance for every VLAN, VLANs cannot be
+                                              grouped in to seperate STP instances
+                                              
