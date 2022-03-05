@@ -1,0 +1,28 @@
+STP Verification
+
+NOTE - Cisco switches use PVST+ by default
+	 - Cisco identifies PVST+ as ieee
+
+switch#show spanning-tree vlan<id>
+
+- Identifies the if the switch is the Root Bridge for the specified VLAN
+- Provides two main section; the Root ID section and Bridge ID section
+	- Root ID: Provides information about the Root Bridge within the STP instance
+		- Cost to reach the Root Bridge
+		- The Root port interface name
+	- Bridge ID: Provides information about the physical switch you are looking at
+- The last section gives information aboue the interfaces that are connected to other switches
+	- Interface name
+	- Port state
+	- Port Role
+	- Path cost
+	etc
+
+
+switch#show mac address-table
+
+- This is useful for mapping out the path traffic is taking
+- If we want to confirm the path traffic from a certain PC is taking to reach the a certain destination router, we can check the routers LAN facing interface
+  then check the MAC address table on the switches we expect the traffic to traverse to ensure they have entries for the routers interface, and which interface
+  it is sending traffic out of
+  
