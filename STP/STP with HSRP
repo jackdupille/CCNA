@@ -1,0 +1,65 @@
+STP and HSRP Relationship
+
+- It is best practice to match the Active router in an HSRP configuration with the Root Bridge in an STP configuration
+
+			R1						R2
+			(Active)				(Standby)
+				|						|
+				|						|
+				|						|
+			CoreSW1					CoreSW2
+			(Root Bridge)			(Backup)
+				|						|
+				|						|
+			DistSW1					DistSW2
+				|						|
+				|						|			
+			AccSW1					AccSW2
+				|_______________________|
+							|
+							|
+						   PCs
+						   
+- In the above topology R1 is configured as our Active router, therefore CoreSW1 is configured as our Root Bridge
+- This ensures traffic destined for the default gateway will take the most direct path
+- If R2 wasa the Active router, and CoreSW1 was still the Root Bridge, traffic would have to transit through an additional device (CoreSW2) to reach the default
+  gateway
+
+### STP and HSRP VLAN Load Balancing Configuration
+
+VLAN 10 > CoreSW1 > R1
+VLAN 20 > CoreSW2 > R2
+
+R1																R2
+
+# ROAS VLAN 10 configuration									# ROAS VLAN 10 Configuration
+R1(config)#interface g0/1.10									R2(config)interface g0/1.20
+R1(config-if)#encapsulation dot1q 10							R2(config-if)#encapsulation dot1q 20	
+R1(config-if)#ip address 10.10.10.2 255.255.255.0				R2(config-if)#ip address 10.10.10.3 255.255.255.0
+R1(config-if)#no shutdown										R2(config-if)#no shutdown
+
+# HSRP VLAN 10 Configuration - Set R1 Active for VLAN 10		# HSRP VLAN 10 Configuration - Set R2 Standby for VLAN 10
+R1(config-if)#standby 1 ip 10.10.10.1							R2(config-if)#standby 1 ip 10.10.10.1
+R1(config-if)#standby 1 priority 110							R2(config-if)#standby 1 priority 90
+R1(config-if)#standby 1 preempt
+
+
+# ROAS VLAN 20 Configuration									# ROAS VLAN 20 Configuration
+R1(config)interface g0/1.20										R2(config)#interface g0/1.20
+R1(config-if)#encapsulation dot1q 20							R2(config-if)#encapsulation dot1q 20
+R1(config-if)#ip address 10.10.10.2 255.255.255.0				R2(config-if)#ip address 10.10.20.3 255.255.255.0
+R1(config-if)#no shutdown										R2(config-if)#no shutdown
+																
+# HSRP VLAN 20 Configuration									# HSRP VLAN 20 Configuration
+R1(config-if)#standby 1 ip 10.10.20.1							R2(config-if)#standby 1 ip 10.10.20.1
+R1(config-if)#standby 1 priority 90								R2(config-if)#standby 1 priority 110
+																R2(config-if)#standby 1 preempt
+																
+=================================================================================================================================================================
+
+CoreSW1															CoreSW2
+
+# PVST+ Configuration											# PVST+ Configuration
+CoreSW1(config)#spanning-tree vlan 10 root primary				CoreSW2(config)#spanning-tree vlan 10 root secondary
+CoreSW1(config)#spanning-tree vlan 20 root secondary			CoreSW2(config)#spanning-tree vlan 20 root primary
+
