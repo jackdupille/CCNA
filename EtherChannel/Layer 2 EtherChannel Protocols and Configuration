@@ -1,0 +1,104 @@
+Layer 2 EtherChannel Protocols and COnfiguration
+
+- There are 3 protocols available for configuring EtherChannels
+1. LACP
+2. PAgP
+3. Static EtherChannel
+
+### LACP (Link Aggregation Control Protocol)
+
+- Open Standard
+- Switches on both sides negotiate the EtherChannel creation and maintenance
+- This is the preferred method
+
+### PAgP (Port Aggregation Protocol)
+
+- Cisco Proprietary
+- Switches on both sides negotiate the EtherChannel creation and maintenance
+
+### Static EtherChannel
+
+- Switches do not negotiate creation and maintenance but the settings on both sides must still match
+- Preferred method if LACP is not supported
+
+NOTE - All protocols are configured using the "channel-group" command
+
+### Parameters
+
+- The switches on both sides MUST have matching settings for the EtherChannel to come up, those settings include:
+	- Speed
+	- Duplex
+	- Port mode (Access or Trunk)
+	- Native VLAN and allowed VLANs on trunk ports
+	- Access VLAN on access ports
+	
+
+### LACP Configuration
+
+- Interfaces can be set to either Active or Passive
+- If both sides are Active the EtherChannel will come up
+- If one side is Active and the other is Passive, the EtherChannel will come up
+- If both sides are Passive the EtherChannel will not come up
+- It is recommended to configure both sides as Active
+
+# SWITCH 1
+
+switch1(config)#interface range fa0/23 - fa0/24
+switch(config-if-range)#channel-group 1 mode active		<- This creates the logical interface "port-channel 1"
+switch1(config-if)#interface port-channel 1
+switch1(config-if)#switchport mode trunk				<- Configure interface settings on the "port-channel" interface
+
+# SWITCH 2
+
+switch2(config)#interface range fa0/23 - 24
+switch2(cofig-if-range)#channel-group 1 mode active
+switch2(config-if)#interface port-channel 1
+switch2(config-if)#switchport mode trunk
+
+
+### PAgP Configuration
+
+- Interfaces can be set to either Desirable or Auto
+- If both sides are Desirable the EtherChannel will come up
+- If one side is set to Desirable and the other is set to Auto, the EtherChannel will come up
+- If both sides are set to Auto, the EtherChannel will not come up
+- It is recommended to configure both sides as Desirable
+
+# SWITCH 1
+
+switch1(config)#interface range fa0/23 - fa0/24
+switch(config-if-range)#channel-group 1 mode desirable		<- This creates the logical interface "port-channel 1"
+switch1(config-if)#interface port-channel 1
+switch1(config-if)#switchport mode trunk					<- Configure interface settings on the "port-channel" interface
+
+# SWITCH 2
+
+switch2(config)#interface range fa0/23 - 24
+switch2(cofig-if-range)#channel-group 1 mode desirable
+switch2(config-if)#interface port-channel 1
+switch2(config-if)#switchport mode trunk
+
+
+### Static EtherChannel Configuration
+
+# SWITCH 1
+
+switch1(config)#interface range fa0/23 - fa0/24
+switch(config-if-range)#channel-group 1 mode on		<- This creates the logical interface "port-channel 1"
+switch1(config-if)#interface port-channel 1
+switch1(config-if)#switchport mode trunk			<- Configure interface settings on the "port-channel" interface
+
+# SWITCH 2
+
+switch2(config)#interface range fa0/23 - 24
+switch2(cofig-if-range)#channel-group 1 mode on
+switch2(config-if)#interface port-channel 1
+switch2(config-if)#switchport mode trunk
+
+
+### VERIFICATION
+
+switch#show etherchannel summary
+
+- Tells you the EtherChannel number and name, the protocol used and the interfaces within the EtherChannel
+
