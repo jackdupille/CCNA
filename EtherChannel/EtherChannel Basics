@@ -1,0 +1,29 @@
+EtherChannel Basics
+
+- Used to bond physical interfaces to increase bandwidth
+- If we connect interfaces fa0/1 and fa0/2 on switch1 to interface fa0/1 and fa0/2 on switch2, we would for a Layer 2 loop and STP would block one of the ports,
+  this would then half our bandwidth and make having two links between the switches pointless
+- EtherChannels prevents this by grouping the physical interfaces in to one logical interface, STP sees the EtherChannel as one interface
+- The EtherChannel provides load balancing and link redundancy
+
+### NIC Teaming
+
+- This is very similar to EtherChannel, but is configured between a server and a switch
+- A traditional PC has only one NIC, but servers often have two, for redundancy
+- NIC Teaming allows both the server NICs to be connected to the same switch and bundled together into one logical NIC
+
+### Terminology
+
+- EtherChannels are often also called Port Channels, LAGs (Link Aggregations) or a link bundle
+- NIC Teaming is also often called Bonding, NIC Balancing or Link Aggregation
+
+
+### Load Balancing
+
+- PC1 connects to Server1 anad PC2 connects to Server2
+- The traffic flow from PC1 to Server1 will go via one physical link within the EtherChannel and only that link for the duration of the communication
+- Similarly with the traffic flow from PC2 to Server2
+- The traffic flows are load balanced across all the EtherChannel member links, but the individual packets from each flow will traverse the same physical link
+- A round robin load balance of individual packets could cause packets to arrive out of order
+- Each flow only receives the maximum bandwidth of the physical link, meaning if we bond 4x 1Gbps interfaces, the whole bandwidth available to the flows is 4Gb
+  but each flow individually will only receive 1Gb of bandwidth
