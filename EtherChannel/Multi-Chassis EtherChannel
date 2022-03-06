@@ -1,0 +1,20 @@
+Multi-Chassis EtherChannel
+
+- EtherChannels are used to prevent STP from blocking redundant ports when two switches connect to each other in order to rpevent Layer 2 loops
+- STP will take the same action if we have 3 switches and configure EtherChannels between them. One side of one EtherChannel will be placed in a blocking state
+  and the EtherChannel will not be used.
+- This is because STP views EtherChannels as individual logical interfaces, so 3 switches connected together will undoubtedly form a loop
+- This ultimately makes the use of EtherChannels for additional bandwidth pointless
+
+- If we have an Access Layer switch that connects to two Dist/Core Layer switches via an EtherChannel to both, only one EtherChannel will be used
+- Multi-chassis EtherChannels allow the Access Layer switch to use the same EtherChannel to both Dist/Core Layer switches
+- This requires the Dist/Core Layer switches to communicate with each other and is only supported on some advanced switches
+
+- STP is still enabled but will not detect any loops
+- SUpports full load balancing and redundancy across all interfaces
+
+- Technologies that support this are:
+    - StackWise on selected Catalyst switches
+    - VSS (Virtual Switching System) on some Catalyst switches
+    - VPC (Virtual Port Channel) on Nexus switches
+    
