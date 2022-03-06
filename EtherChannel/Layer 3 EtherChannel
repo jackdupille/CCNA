@@ -1,0 +1,30 @@
+Layer 3 EtherChannel
+
+- The configuration of a Layer 3 EtherChannel is exactly the same as Layer 2 EtherChannel, except we then make the Port-Channel interface a none switchport,
+  assign an IP address and bring the interface up with a "no shutdown"
+- These are only available on Layer 2 switches, obviously
+  
+switch1#conf t
+switch1(config)#interface range fa0/23 - 24
+switch(config-if-range)#no switchport
+switch(config-if-range)#channel-group 1 mode active
+switch(config-if-range)#interface port-channel 1
+switch(config-if)#ip address 192.168.0.1 255.255.255.252
+switch(config-if)#no shutdown
+
+### Where do we use them?
+
+- A traditional Campus Design has our end user devices > Access Layer switches > Distribution Layer switches > Core Layer switches > Routers > WAN
+- In the traditional design the links between our end user devices, Access Layer switches and Distribution Layer switches are all Layer 2 links
+- Spanning Tree is also enabled between the Access Layer and Distribution Layer switches
+- Any Default Gateways are also commonly configured on the Distribution Layer switches
+- Any link from the Distribution Layer switches to the Core Layer switches and above are Layer 3 links
+
+- It is becoming more and more common to see all links being Layer 3, right down to the Access Layer switches
+- This eliminates STP
+- The main reason for this change is because the price of Layer 3 switches has reduced significantly
+- At this point a routing protocol will also need to be configured on the switches to determine the routing path
+- The default gateways for our end hosts also moves down to the Access Layer switches, this is because the host connected to the Access Layer switch will be in one
+  subnet, but the switch will connect to the Distribution Layer switch on a different subnet, therefore the hosts would not know how to get to their default gateway
+  were it not configured on the Access Layer switch
+- It is common to configure Layer 3 EtherChannel between the Access Layer and Distribution Layer switches
