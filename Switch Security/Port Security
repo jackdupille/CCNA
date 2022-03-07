@@ -7,11 +7,13 @@ Port Security
 - It is easy to spoof a MAC address so this is not Port Securities main function
 - We can also configure the switch port to only allow a certain number of MAC address, this is useful as it prevents unauthorised access points being connected to
   a switch port and multiple devices then connecting to the network over the interface
+- To enable port-security on a switch port, the port must be an Access Port, by default the ports are "dynamic"
 
 ### Configuration
 
 switch#conf t
 switch(config)#interface fa0/2
+switch(config-if)#switchport mode access
 switch(config-if)#switchport port-security
 
 - This is default configuration, only one MAC address can be used on the interface at one time
