@@ -45,3 +45,40 @@ switch(config-if)#switchport port-security violation [protect | restrict]
   switch#conf t
   switch(config)#errdisable recovery cause psecure-violation
   switch(config)#errdisable recovery interval 600
+  
+### Maximum allowed MAC Address
+
+- When we enable port-security on a switchport interface, the default number of allowed MAC addresses is 1
+- We can increase this, say to 2 MAC addresses if we have a PC plugged in to an IPhone which is then plugged in to the switch
+
+  switch#conf t
+  switch(config)#interface fa0/1
+  switch(config-if)#switchport mode access
+  switch(config-if)#switchport port-security maximum 2
+  
+### Lock interface down to a specific MAC Address
+
+- We can manually configure the allowed MAC addresses on an interface to a specific MAC address only
+
+  switch#conf t
+  switch(config)#interface fa0/1
+  switch(config-if)#switchport mode access
+  switch(config-if)#switchport port-security
+  switch(config-if)#switchport port-security mac-address AAAA:BBBB:CCCC
+  switch(config-if)#switchport port-security maximum 1
+  
+- This is not very scalable, imagine we have a large amount of authorised PCs and we want to lock the switchports down to only these allowed hosts
+- In this scenario we can use Stciky MAC Addresses
+- Sticky MAC Addresses add te learned MAC address to the running configuration and save to the startup configuration to make them permanent
+
+  switch#conf t
+  switch(config)#interface fa0/1
+  switch(config-if)#switchport mode access
+  switch(config-if)#switchport port-security
+  switch(config-if)#switchport port-security mac-address sticky
+  
+### Verification
+
+  switch#show port-security address       <- View MAC addresses on each interface and whether dynamically learned or statically configured
+  switch#show port-security               <- Get information/statistics on each interface the port-security has been enabled on
+  
