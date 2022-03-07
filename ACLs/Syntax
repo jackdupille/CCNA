@@ -1,0 +1,28 @@
+ACL Syntax
+
+- First we decide on the type of ACL, Standard, Extended or Named
+- Then we define the Action: Permit or Deny. We can also put a "remark" at this point to describe what the ACL is doing
+- Now we define the protocol, this is not limited to just TCP or UDP. Routing protocols such as EIGRP and OSPF are included, we can also specify IP or ICMP also
+    - Use TCP or UDP if you want the ACE to apply to traffic for a particular application between a source and destination address
+      
+        router(config)#access-list 100 deny tcp 10.10.10.0 0.0.0.255 10.10.50.0 0.0.0.255 eq 80
+        
+    - Use IP if you want the ACE to apply to all traffic between a source and destination address
+    
+        router(config)#access-list deny ip 10.10.10.0 0.0.0.255 10.10.50.0 0.0.0.255
+        
+- Next we define the source IP and wildcard, we can use the keywords "any" and "host" to apply the rule to all hosts or a specific host
+- Next (optional) we have the source port number, we can use keywords such as "gt" (greater than), "any", "lt" (less than), "eq" (equal too) etc
+- Next is the destination IP and wildcard mask
+- Finally we have the final options such as "eq" (equal too), "lt" (lower than), "Ack" (match on the Ack bit) etc
+
+### Complete ACE Example
+
+  router(config)#access-list 100 deny tcp host 10.10.10.10 10.10.20.0 0.0.0.255 eq www log
+  
+- This ACE is blocking TCP web traffic from the host at IP address 10.10.10.10 from reaching any host on the 10.10.20.0/24 subnet and logging the results
+- NOTE - The "log keyword is used to log to the console or an external server, not including it does not prevent "hits/matches" from being logged
+
+### Verification
+
+router#show access-lists 100
