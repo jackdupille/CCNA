@@ -1,0 +1,16 @@
+DHCP Snooping
+
+- If a Rogue DHCP Server is plugged in to the network, it may claim to be the default gateway and DNS server for the network
+- PCs on the network are liable to receive a DHCP Offer from this Rogue server instead of the intended legitimate DHCP Server elsewhere on the network
+- If they receive a DHCP Offer from the Rogue DHCP Server then they will not get any connectivity
+- This cold be a malicious attack, or it could simply be an end user has plugged in a device, such as a Home Router which has a DHCP service running on it
+- DHCP Snooping is the fix for this
+- We configure the ports on the Access Layer switches that the legitimate DHCP server is connected to as Trusted Ports, this means the inbound switch interfaces
+  that will receive packets from the DHCP Server
+  
+switch1#conf t
+switch1(config)#ip dhcp snooping
+switch1(config)#ip dhcp snooping vlan 10      <- Enable it at the Access VLAN level
+switch1(config)#interface fa0/1               <- Interface facing the DHCP server
+switch1(config-if)#ip dhcp snooping trust
+
