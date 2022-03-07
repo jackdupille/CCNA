@@ -1,0 +1,5 @@
+802.1X Identity Based Networking
+
+- When 802.1X is enabled, only authentication traffic is allowed on switch ports until the host and user are authenticated
+- WHen the user has entered a correct username and password, the switch port transitions to a normal access port in the relevant VLAN
+- The switch will connect to an AUthentication server and restrict the users access to the network until authenticated
