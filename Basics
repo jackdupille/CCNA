@@ -1,0 +1,22 @@
+Basics
+
+- ACLs are used to identify traffic passing theough a router or switch, we can then perform a specific action on that specific traffic
+- ACLs and a collection of ACEs (Access COntrol Entries)
+- The syntax for an ACE is as follows
+																																
+														   |				SOURCE						   |				DESTINATION	
+														   |											   |						
+	router(config)#access-list <NUMBER> <ACTION> <PROTOCOL>|<SRC IP> <WILDCARD MASK> <QUALIFIER> <SRC PORT>|<DST IP> <WILDCARD MASK> <QUALIFIER> <DST PORT>
+														   |											   |
+														   |											   |
+														   
+### ACE Example
+
+	router(config)#access-list 100 deny tcp 10.10.30.0 0.0.0.255 gt 49151 10.10.20.1 0.0.0.255 eq 23
+	
+- This example ACE says,
+
+"deny tcp traffic from any host in the 10.10.30.0/24 subnet with a source port greater than 49151 and has a destination IP of 10.10.20.1/24 and a destination port
+of 23"
+
+
