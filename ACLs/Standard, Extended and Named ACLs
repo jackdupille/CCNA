@@ -1,0 +1,55 @@
+Standard, Extended and Named ACLs
+
+### Standard vs Extended
+
+- Standard and Extended ACLs are "numbered ACLs"
+
+- If the access list is numbered 1-99 it is a standard ACL
+- If it is nunber 100 - 199 it is an extended ACL
+- If numbered 1300 - 1999 it is a standard ACL in the expanded range
+- If numbered 200 - 2699 it is an extended ACL in the expanded range
+
+1 - 99: Standard ACL
+100 - 199: Extended ACL
+1300 - 1999: Standard ACL (Expanded range)
+2000 - 2699: Extended ACL (Expanded range)
+
+- Standard ACLs reference the source IP address ONLY
+- Extended ACLs check based on the protocol, source and destination address and port number
+
+### Standard ACL Example
+
+router(config)#access-list 1 deny 10.10.10.10 0.0.0.0    <- This will block all traffic coming in to the router with a single source IP of 10.10.10.10
+
+router(config)#access-list 1 permit 10.10.10.0 0.0.0.255  <- This will permit all traffic in the 10.10.10.0/24 subnet
+
+- ACLs are checked from top to bottom so traffic from Host 10.10.10.10 will be denied before the ACL reaches the rule to permit all traffic from the same subnet
+
+### Extended ACL Example
+
+router(config)#access-list 100 deny tcp 10.10.10.10 0.0.0.0 gt 49151 10.10.50.10 0.0.0.0 eq 23
+
+  - The above extended ACL is denying TCP traffic only from the host at 10.10.10.10 if it has a source port greater than 49151 and has a destination IP of
+    10.10.50.10 and a destination port of 23, which is the Telnet protocol
+    
+router(config)#access-list 100 permit tcp 10.10.10.0 0.0.0.255 gt 49151 10.10.50.10 0.0.0.0 eq 23
+
+  - The above extended ACL is permitting all TCP traffic from the 10.10.10.0/24 subnet with a source port greater than 49151 and has a destination IP of
+    10.10.50.10 and a destination port number of 23, Telnet
+    
+
+
+### Named ACLs
+
+- These allow us to reference an ACL by a name instead of a number
+- They can still be of the Standard or Extended variety
+- A named ACL command start with the "ip" keyword
+- With Named ACLs, we define the type of ACL and give it a name, at which point we enter a sub configuration mode to actually configure the ACEs
+
+### Standard Named ACL Example
+
+    router(config)#ip access-list standard DEMO_ACL
+    router(config-std-nacl)#deny 10.10.10.10 0.0.0.0
+    router(config-std-nacl)#permit 10.10.10.0 0.0.0.255
+
+    
