@@ -1,0 +1,29 @@
+DAI (Dynamic ARP Injection)
+
+- Also knows as MITM ARP Spoofing
+- Unlike DHCP Snooping, DAI is ALWAYS a malicious attack
+- In this case an attacker will be on the same subnet and will send out Gratuitous ARP messages
+- Gratuitous ARP messages are ARP messages that are sent NOT in response to ARP Requests
+- The attacker will send the Gratuitous ARP messages claiming to be another device on the network, commonly the Router
+  - So it will say I am <Router IP> and my MAC is ... and it will provide its actual MAC address, but a false IP. Now the sending PC will send traffic intended for
+    the Router to the attackers PC instead, the attacher can then send this traffic to the Router, the return traffic will then be send to the sender via the
+    attacker, the attacker is "snooping" on the traffic between the sender and the router
+- In order to fix this, we can use DAI. In order to use DAI we need to have enabled DHCP Snooping
+    - When DHCP SNooping is enabled on a switch, the switch inspects the DHCP traffic and keeps track of which IP address is assigned to which MAC address
+    - If the switch sees traffic saying it is coming from a particular IP, with a different MAC address, the switch drops the traffic
+    
+### DAI Configuration
+
+- DAI is not enabled on trusted ports, so any device that doesn't get its IP from the DHCP server such as the Router, printers, servers etc. Configure the connected
+  switch ports as Trusted Ports
+
+  switch#conf t
+  switch(config)#interface fa0/1              <- Interface facing a non-DHCLP client device
+  switch(config-if)#ip arp inspection trust   <- Configure as a trusted port
+
+- DAI is only used for DHCP Clients and is configured at the VLAN level
+
+  switch(config)#ip arp inspection vlan <ID>
+
+
+
