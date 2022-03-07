@@ -1,0 +1,45 @@
+Port Security
+
+- Shutdown any unused interfaces
+- With Port Security we can define whch host or hosts are allowed to send traffic in to a switch port based on their MAC address, this allows an interface to be
+  locked down to a particular host or hosts
+- If traffic comes in to the switch port with a MAC address that is not allowed the switch will drop the traffic
+- It is easy to spoof a MAC address so this is not Port Securities main function
+- We can also configure the switch port to only allow a certain number of MAC address, this is useful as it prevents unauthorised access points being connected to
+  a switch port and multiple devices then connecting to the network over the interface
+
+### Configuration
+
+switch#conf t
+switch(config)#interface fa0/2
+switch(config-if)#switchport port-security
+
+- This is default configuration, only one MAC address can be used on the interface at one time
+- It is not locked down to only 1 specific MAC address however
+- If multiple hosts try to connect over the interface via another switch or an Access Point, the port will be shutdown
+
+### Verification
+
+switch#show port-security interface fa0/2
+
+### Violation Modes
+
+- Shutdown (default); Interface is placed in to an err-disabled state, blocking all traffic, remove the MAC address and flap the port to bring it back up
+- Protect: Traffic from unauthorised MAC addresses is blocked, traffic from authorised MAC address is allowed
+- Restrict: Traffic from unauthorsed MAC addresses is dropped, logged and the violation counter in the output of the verification command is incremented. Traffic
+            from allowed MAC addresses is forwarded
+            
+### Violation Mode Configuration
+
+switch#conf t
+switch(config)#interface fa0/2
+switch(config-if)#switchport port-security violation [protect | restrict]
+
+### Auto-Recovery
+
+- We can bring an interface back from an err-disabled state by removing the offending MAC address and flapping the port, but this can be configured automatically
+- We just need to configure a time period that the port needs to wait before coming back up
+
+  switch#conf t
+  switch(config)#errdisable recovery cause psecure-violation
+  switch(config)#errdisable recovery interval 600
