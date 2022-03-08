@@ -6,3 +6,8 @@ Placing ACLs
   if we place this ACL closest to the source of the traffic we could cut that subnet off from all other parts of the network, not just the particular destination
   subnet
 - Therefore it is best to place standard ACLs on the outbound interface of the router that connects to the destination subnet you want to restrict access too
+- Once we have decided where we are placing the ACL, we need to add it to the interface
+
+  router#conf t
+  router(config)#interface fa0.1
+  router(config-if)#ip access-group 1 out   <- ACL 1 in the outound direction on the interface facing the destination subnet we want to restrict access to
