@@ -19,4 +19,7 @@ Basics
 "deny tcp traffic from any host in the 10.10.30.0/24 subnet with a source port greater than 49151 and has a destination IP of 10.10.20.1/24 and a destination port
 of 23"
 
+- At the end of an ACL there is an implicit "deny any any" rule to block all traffic, we dont want this so we need to place a permit rule accordingly above this
+  to allow traffic in to the interface
+
 
