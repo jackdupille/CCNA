@@ -1,0 +1,8 @@
+Placing ACLs
+
+- Which interface you place an ACL on requires some thought
+- It is best practice to place the ACL closest to the source of the traffic so as not to traverse any unnecessary devices
+- However this depends on the type of ACL you are using, a standard ACL will match only on the source address NOT the destination address as well, so
+  if we place this ACL closest to the source of the traffic we could cut that subnet off from all other parts of the network, not just the particular destination
+  subnet
+- Therefore it is best to place standard ACLs on the outbound interface of the router that connects to the destination subnet you want to restrict access too
