@@ -1,0 +1,55 @@
+PAT - Port Address Translation
+
+- Allows the same public IP address to be reused
+- PAT is an extension to NAT that permits multiple devices to be mapped to a single public IP address
+- You do not require an public IP address for every internal host
+- The router tracks translations via the IP address and Layer 4 port number
+- Internal hosts are assigned different Layer 4 port numbers, so even with the same public IP address the router knows where to send the traffic to
+
+- PAT also known as Dynamic NAT with Overload (due to the configuration) works exactly like Standard Dynamic NAT, it uses a pool of public IP addresses that are assigned 
+  to the internal hosts on a first come first serve basis, that is until there is only one IP in the pool left. Any further connections will be assigned to the last
+  available IP but with different Layer 4 port numbers
+
+- When the Router performs PAT on traffic from an internal host, it not only changes the source IP from the private to public IP, it also changes the port number
+
+    host (HTTP traffic) >>> Router >>> Internet
+
+   Inside Local: 10.10.10.10:49165
+   Inside Global: 203.0.113.4:4096
+   Outside Local: 203.0.113.10:80
+   Outside Global: 203.0.113.10:80
+
+### Configuation
+
+- The configuration is exactly the same as Dynamic NAT, except when we associate the ACL with the NAT Pool, we include the keyword "overload"
+
+   router(config)#ip nat inside source list 1 pool <POOL NAME> overload
+
+### PAT with a single IP address
+
+- Small offices or even a home environment will likely get there public IP from the ISP via DHCP instead of paying for a fixed public IP address
+- This means there is no guarantee the public IP will stay they same, meaning the NAT/PAT translations will stop working
+- PAT is able to get round this with a very similar configuration to Dynamic NAT with Overload (Standard PAT), but it translates the inside hosts to the routers outside
+  interface, not a pool of public IP addresses
+
+### Configuration
+
+# Define outside interface and configure for DHCP
+
+  router#conf t
+  router(config)#interface fa0/0
+  roouter(config-if)#ip address dhcp
+  router(config-if)#ip nat outside
+
+# Define the inside interface
+
+  router(config-if)#interface fa0/1
+  router(config-if)#ip nat inside
+
+# Create the ACL
+
+  router(config)#access-list 1 permit 10.0.1.0 0.0.0.255
+
+# Associate the ACL with the outside interface
+
+  router(config)#ip nat inside source list 1 interface fa0/0 overload
