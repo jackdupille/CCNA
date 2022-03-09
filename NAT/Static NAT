@@ -1,0 +1,36 @@
+Static NAT - Network Address Translation
+
+- Permanent one-to-one mapping between a private and public IP address
+- Used mainly for servers that must accept incoming connections
+
+### Scenario
+
+- A company has bought the public IP range 23.0.113.0/28
+- 203.0.113.1 is used on the ISPs router and is used as the default gateway
+- 203.0.113.2 is used on the outside interface of our edge router facing the ISP
+- 203.0.113.3 - 203.0.113.14 remain available
+
+- The company has an internal server on private IP 10.0.1.10 which needs to accept incoming connections from the internet
+- The server will require a fixed public IP address for this (203.0.113.3)
+- We will have to configure a static NAT rule on the Routers outisde interface and inside interface to translate 203.0.113.3 to 10.0.1.10
+- The transslation is bidirectional so one static NAT rule will also translate traffic from the server at 10.0.1.10 to 203.0.113.3
+
+### Static NAT Configuration
+
+- First we need to define which is the outisde interface on the Router and which is the inside interface
+
+    router#conf t
+    router(config)#interface fa0/0      <- Outside interface
+    router(config-if)#ip nat outside
+    
+    router(config-if)#interface fa1/0   <-Inside interface
+    router(config-if)#ip nat inside
+    
+    router(config-if)#exit
+    router(config)#ip nat inside source static 10.0.1.10 203.0.113.3    <- Configure the static NAT rule from 10.0.1.10 > 203.0.113.3
+    
+ ### Verification
+ 
+    router#show ip nat translation
+    
+ - 
