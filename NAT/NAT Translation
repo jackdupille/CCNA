@@ -1,0 +1,25 @@
+NAT Translations
+
+- To verify out NAT rules we can use the following command
+
+    router#show ip nat translations
+    
+- There will be quite a bit of output, including headers for INSIDE GLOBAL, INSIDE LOCAL, OUTSIDE GLOBAL and OUTSIDE LOCAL
+
+- Inside Local: The IP address configured on the inside hosts Operating System
+                The private IP configured in the host, e.g. 10.0.1.10
+                
+- Inside Global: The NAT'd address of the inside host as it will be reached via the internet
+                 The public IP configured for the NAT rule, e.g 10.0.1.10 > (( 203.0.113.3 )) <- Inside Global
+                 
+- Outside Local: The IP address of the outside host as it appears to the inside network
+                 If the internal server sends traffic to the outside host, what IP would it use? 203.0.113.3 > (( 123.50.3.67 ))  <- Outside Local
+                 
+- Outside Global: The IP address assigned to the outside host on the outside network by the hosts owner
+                  This will be the same as the Outside Local address, the host likely has a Private IP just as the inside host does, but from the Routers point of
+                  view, it can't see this IP, it can only see the Outside Local public IP
+                  
+Outside Local VS Outside Global
+
+- For one way NAT these addresses will be the same from the perspective of our router
+- If however we are doing "two way" NAT then the addresses will be different, commonly used if two companies merge
