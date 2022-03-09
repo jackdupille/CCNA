@@ -1,0 +1,47 @@
+Dynamic NAT
+
+- Uses a pool of public IP addresses, assigned to internal hosts on a first come first serve basis
+- Usually used for internal hosts that need connectivity to the internet, but do not accept incoming connections
+
+# Scenario
+
+- A company has bought the public IP range 203.0.113.0/28
+- 203.0.113.1 is assigned on the ISPs router
+- 203.0.113.2 is assigned on the companies edge router, interface facing the ISP
+- 203.0.113.3 is assigned as a Static NAT to an internal server at 10.0.1.10
+- This leaves 203.0.113.4 - 203.0.113.14 as useable IPs
+
+- With Standard Dynamic NAT, you ideally need 1 public IP for every internal host, otherwise once all the available public IPs are in use, new connections to the 
+  internet will not be possible. The hosts will have to wait until a public IP becomes available again
+- Dynamic NAT is not typically used in the real-world, it is far more common to see PAT Port Address Translation
+
+### Configuration
+
+# Configure the outside and inside interfaces, just like with Static NAT
+
+    router#conf t
+    router(config)#interface fa0/0
+    router(config-if)#ip nat outside
+    router(config-if)#interface fa0/1
+    router(config-if)#ip nat inside
+    
+# Configure the pool of public addresses
+
+    router#conf t
+    router(config)#ip nat pool <POOL NAME> 203.0.113.4 203.0.113.14 netmassk 255.255.255.240
+    
+# Create an ACL that references the private IP addresses we want to translate
+
+    router#conf t
+    router(config)#access-list 1 permit 10.0.1.0 0.0.0.255    <- Extended or Names ACL are fine here alos
+    
+# Associate the ACL with the NAT Pool to complete the configuration
+
+    router#en
+    router(config)#ip nat inside source list 1 pool <POOL NAME> 
+
+# Verification
+
+    router#show ip nat translation
+    router#clear ip nat translation     <- Remove translations from the table
+    router#clear ip nat translation *   <- WIll remove all dynamic NAT translations
