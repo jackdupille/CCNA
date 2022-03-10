@@ -1,0 +1,29 @@
+SLAAC - Stateless Address AutoConfiguration
+
+- Hosts can be assigned addresses through static addressing such as DHCPv6 or SLAAC
+- DHCP servers track their MAC address to IP address assignments, this is "stateful" addressing
+- With SLAAC, hosts learn the /64 subnet their interface is on from their local router, and then use this information to generate their own EUI-64 address
+- The router does not track which host has which IP address, so this is "stateless" addressing
+- When a global unicast address is configured on an interface, Router Advertisements advertising the network prefix are sent out by default
+- These ICMP messages are sent to the "All Nodes" multicast address from the interfaces link-local address
+- Hosts can also send "Router Solicitation" messages to request the information
+
+- As well as telling the hosts which subnet to use to generate the IP address on, the Router also tells the hosts to use its self as their default gateway
+- Hosts cannot get their DNS server information from SLAAC, so a DHCP/DNS server is still required
+
+### The Unspecified Address
+
+- :: is the "unspecified" address or "unknown" address
+- An IPv6 route to ::/0 is a default route equivilant to 0.0.0.0 0.0.0.0 in IPv4
+- :: is also used as the source address when a host is trying to acquire an address via DHCPv6
+
+### Neighbor Discovery
+
+- IPv6 version of ARP
+- Very similar to ARP, but uses ICMP Neighbor Solicitations and Neighbor Advertisements instead of ARP Requests and Replies
+- Neighbor Solicitations are sent to the Solicited-Node multicast address, which reaches all hosts on the subnet
+
+### Verification
+
+    router#show ipv6 neigbors
+    
