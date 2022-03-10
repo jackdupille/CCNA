@@ -1,0 +1,8 @@
+Unique Local Addresses
+
+- Similar to IPv4 private addresses
+- Not publicly reachable
+- Assigned from the range FC00::/7
+- Hosts should be assigned /64 addresses
+
+
