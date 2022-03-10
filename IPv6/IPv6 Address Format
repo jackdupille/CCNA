@@ -1,0 +1,25 @@
+IPv6 Address Format
+
+- 128 bits long compared to IPv4s 32-bit
+- The address is written as 8 16-bit hexadecimal values: X:X:X:X:X:X:X:X. Hexadecimal values range from 0-9,A-F
+- E.g. 2001:0DB8:0000:0001:0000:0000:0000:0001
+
+# Address Shortening
+
+- Leading 0's in each segment can be removed
+- Therefore 2001:0DB8:0000:0001:0000:0000:0000:0001, can be written as
+            2001:DB8:0:1:0:0:0:1
+
+- One section of consecutive 0's can be removed completely and replaced with double colons
+- Therefore 2001:DB8:0:1:0:0:0:1, can be written as
+            2001:0:1::1
+            
+- We cannot get rid of the first 0 because if we have two double colons, there is no way of knowing how many consecutive 0's are in each section
+
+- Therefore we can write an IPv6 address three different ways:
+ 
+  1. 2001:0DB8:0000:0001:0000:0000:0000:0001
+  2. 2001:DB8:0:1:0:0:0:1
+  3. 2001:0:1::1
+  
+  
