@@ -1,0 +1,17 @@
+EUI-64 Addresses
+
+- A Cisco router can generate full IPv6 addresses for itself when given the interface and /644 network to use
+- The host portion of the address is derived from the interfaces MAC Address, which is lobally unique
+- A MAC address is 48-bit long compared to the 64-bit length of the host portion of an IPv6 address
+- To fill the remaining 16-bits, FF:FE is placed in the middle of the MAC address, also the 7th bit is inverted
+
+### Configuration
+
+- We will give the routers interface the network only and tell it to choose its own interface
+
+    router#conf t
+    router(config)#interface fa0/0
+    router(config-if)#ipv6 address 2001:db8:0:1::/64 eui-64#
+    
+- EUI-64 addresses are not recommended on network devices such as Routers
+- It is best to use EUI-64 addresses on end user devices, it is a valid optional opposite DHCP, and uses a process called SLAAC
