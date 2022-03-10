@@ -1,0 +1,45 @@
+Global Unicast Addresses
+
+- There are 3 different IPv6 Address Types
+  1. Global Unicast
+  2. Unique Local
+  3. Link Local
+  
+- Global Unicast addresses are similar to Public IPv4 addresses
+- They are assigned to an individual host and have global reachability, unless blocked by a security device such as a Firewall
+- They are assigned form the range 2000::/3
+- Internet authorities assign blocks from the overall range of 2000::/3 to organisations
+- A common assignment is a /48, such as 2001:10:10::/48
+- IPv6 standards suggest that an address assigned to an individual host should get a /64 mask
+- the IPv6 address is 128-bits long, so this cut the address up to half for the network portion and half for the host portion
+
+- If a company is assigned a /48 block and uses /64 addresses for the internal hosts. 64-48 = 16 bits left to assign to subnets
+- E.g. Acompany is assigned 2001:10:10::/48, it can assign subnets 2001:10:10:0::/64 - 2001:10:10:FFFF::/64 to its internal network segments
+- 16 bits = 65,535 possible subnets
+- 64 bits left over = 18,446,744,073,709,551,616 hosts per subnet...
+
+            |       |
+      X:X:X |   X   | X:X:X:X
+            |       |
+    company   subnet  hosts
+    
+# Configuration
+
+    router#conf t
+    router(config)#ipv6 unicast-routing   <- Enable IPv6 first
+    router(config)#interface fa0/0
+    router(config-if)#ipv6 address 2001:db8:0:1::1/64
+    router(config-if)#interface fa0/1
+    router(config-if)#ipv6 address 2001:db8:0:0::1/64
+    
+### Broadcast and Multicast
+
+- IPv6 supports broadcast to all hosts on 255.255.255.255
+- Routers do not forward broadcast traffic so the traffic stays on the local subnet
+- IPv6 does not support broadcast traffic
+- It does however support multicast to all hosts on the local subnet (FF02::1), which is functionally the same
+- Many services that use IPv4 broadcast traffic, use more specific multicast addresses in IPv6, such as FF05::1:3 forDHCP Discover messages
+
+### Verification
+
+    router#show ipv6 interface brief
