@@ -1,0 +1,42 @@
+IPv6 Static Routes
+
+- Works exactly the same as IPv4, however the processes are seperate with seperate routing tables
+- If a router receives an IPv6 packet it will use its IPv6 routing table and vice versa
+- The IPv6 routing table is built in the same way as the IPv4 routing table, through static and dynamically learnt routes
+- Use the global "ipv6 unicast-routing" to enable IPv6 routing, without this the router wont forward IPv6 traffic
+
+# Connected Routes
+
+- Within the IPv4 routing table, connected routes will be added automatically, and the address configured on the routers interface will be displayed as a/32
+- The same occurs within the IPv6 routing table, however the address configured on the routers interface will show up with a /128 mask, due to the 128-bit address
+
+# Configure Static Routes
+                                                                                                                  
+                                                                          --------------------------------------- 2001:DB8:0:2::/64 -------- internet
+         2001:DB8:0:0::/64     :2             2001:DB8:0:1/64         :1  |
+                           R1 ------------------------------------------ R2
+                                                                          |
+                                                                          --------------------------------------- 2001:BD8:0:3::/64
+                                                                          
+                                                                          
+- For R2 to get to the network behind R1 we need to add a static route
+
+      R2#en
+      R2(config)#ipv6 route 2001:DB8:0:0::/64 2001:DB8:0:1::2
+      
+- For R1 to reach the two networks behind R2 we need to add a static route for eac
+
+      R1#en
+      R1(config)#ipv6 route 2001:DB8:0:2::/64 2001:DB8:0:1::1
+      R1(config)#ipv6 route 2001:DB8:0:3::/64 2001:DB8:0:1::1
+      
+# Route Summaraisation
+
+- We can summarise the two networks behind R2 in to a single Summary Route
+
+# Default Route
+
+- We can configure a default static route
+
+      R1#en
+      R1(config)#ipv6 route ::/0 2001:DB8:0:2::1  <- Via the top network behind R2
