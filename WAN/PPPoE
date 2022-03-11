@@ -1,0 +1,12 @@
+PPPoE - Point to Point Protocol over Ethernet
+
+- Commonly used in DSL (Digital Subscriber Line) deployments
+- PPPoE can be configured either on the router or the modem
+
+                                              |
+          LAN ----- Router ----- Modem -------|------- DSLAM -------- Access Concentrator 
+                                              |
+                                         Demarcation
+                                            Point
+                                            
+                                           
