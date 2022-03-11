@@ -1,0 +1,33 @@
+MPLS - Multi Protocol Label Switching
+
+- WAN connectivity can be provided over an MPLS infrastructure, usually operated by the ISP
+- Traffic from multiple customers can travel over the providers shared MPLS network, therefrore this is a VPN service
+- Different SLAs for uptime and traffic delay and loss are often available at different price points
+- Ehternet connections are typically used to the CPE
+- MPLS VPNs provided a full mesh topology by default
+
+- A typical VPN will likely traverse many different ISPs, so an SLA is not possible
+- When using an MPLS VPN, one ISP owns the entire network, SLAs are available
+
+
+# Layer 3 MPLS VPN
+
+- MPLS runs across the ISPs core on the Provider Edge (PE) and Provider core (P) routers
+- The Customer Edge (CE) does not run MPLS
+- The CE routers peer at layer 3 with the PE routers
+- Static routes or a routing protocol are used between the CE and PE routers
+- The PE router looks like another customer router to the customer
+- The providers P routers are transparent to the customer
+- The customers sites are in differnet subnets
+
+
+# Layer 2 MPLS VPN
+
+- The CE router does not peer with the PE router. The entire ISP network is transparent to the customer
+- The ISP network acts like a giant switch
+- The customer sites are int the same subnet
+
+# Layer 2 MPLS VPN Terminology
+
+- VPLS (Virtual Private LAN Service): Multipoint Layer 2 VPN
+- VPWS (Virtual PseudoWire Service): Point-to-Point Layer 2 VPN
