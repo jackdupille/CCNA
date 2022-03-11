@@ -1,0 +1,17 @@
+WAN Topologies
+
+# Hub and Spoke
+
+- Advantages: Simplicity, centralised security policy
+- Disadvantages: Single point of failure, suboptimal traffic flow
+
+# Redundant Hub and Spoke (extra Hub)
+
+- Advantages: Removes the single point of failure, centralised security policy
+- Disadvantages: Higher cost, suboptimal traffic flow
+
+# Full Mesh
+
+- Advantages: Optimal traffic flow
+- Disadvantages: Higher complexity and cost
+
