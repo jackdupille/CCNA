@@ -1,0 +1,42 @@
+VPNs - Virtual Private Networks
+
+- Provides a private tunnel across a shared public network, like the Internet
+- Traffic travelling over the tunnel is encrypted and only readable by authorised users on either end
+- Users can share data over the VPN as if they were connected via a physical private link
+- VPNs allow an organisation to use the same physical links for connectivity to the internet and between offices
+- Because they use shared infrastructure, they are often less expensive that dedicated physical links
+
+### VPN Types
+
+# Site-to-Site VPN
+
+- Terminate on a router or firewall in each office
+- Software does not need to be installed on users desktops
+- IPSec is typically used for encryption
+
+# Remote Access VPN
+
+- Between a router or firewall in the office and VPN software on an individual users device, CiscoAnyConnect is an example of a Remote Access VPN software that is 
+  installed on a users device
+- The user can access the VPN from anywhere with an internet connection and has access to their work documents
+- Usually use SSL for encryption, but IPSec can also be used
+
+### Configuration Options
+
+# Site-to-Site VPNs
+
+- IPSec Tunnel: Open standard, does not support multicast, therefore if two locations have many routers and subnets and are using a routing protocol such as OSPF,
+                we cant advertise those networks over the VPN to the other side because routing protocols use multicast
+                
+- GRE (Generic Routing ENcapsulation) over IPsec: Adds support for multicast
+
+- IPSec VTI (Virtual Tunnel Interface): Cisco proprietary, simplified configuration, supports multicast
+
+- DMVPN (Dynaic Multipoint VPN): Cisco proprietary, scalable and simple hub and spoke syle configuration but enables direct full mesh connectivity between all
+                                 offices
+                                 
+- FlexVPN: Cisco proprietary, similar to DMVPN, but a newer technoolgy
+
+- GETVPN (Group Encrypted Transport VPN): Cisco proprietary, scalable centralisedd policy for VPN over non-public infrastructure such as MPLS
+
+
