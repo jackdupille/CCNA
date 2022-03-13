@@ -1,0 +1,43 @@
+Line Level Security
+
+- Minimal password security can be configured at three different levels, through the use of locally defined passwords
+  - Console Line: Access to User Exec mode via a console cable
+  - VTY Line: Accessing User Exec mode via a remote protocol such as Telnet or SSH
+  - Privileged Exec Mode: Entering the "enable" command
+- All three can be used or a combination of one or more
+
+# Line Console Password Configuration
+
+      router#conf t
+      router(config)#line console 0
+      router(config-line)#password <PASSWORD>
+      router(config-line)#login
+  
+# VTY (Telnet) Password Configuration
+
+- If this is a Layer 2 switch, remember to configure a Management IP and set the default gateway
+
+      switch#conf t
+      switch(config)#interface vlan 1
+      switch(config-if)#ip add <ADDRESS> <SUBNET MASK>
+      switch(config-if)#no shutdown
+      switch(config-if)#exit
+      switch(config)#ip default-gateway <GATEWAY IP>
+  
+  - You can now configure Telnet
+
+      switch(config)#line vty 0 15
+      switch(config-line)#password <PASSWORD>
+      switch(config-line)#login
+
+# Securing VTY Lines with an ACL
+
+  - This adds yet another level of security so only certain workstations can connect
+
+      switch(config)#access-list 1 permit <HOST IP>
+      switch(config)#line vty 0 15
+      switch(config-line)#password <PASSWORD>
+      switch(config-line)#login
+      switch(config-line)#access-list 1 in
+      
+      
