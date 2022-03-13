@@ -40,4 +40,26 @@ Line Level Security
       switch(config-line)#login
       switch(config-line)#access-list 1 in
       
+# Securing the Privilege Exec Mode
+
+- A basic way to set a password to access the Privilege Exec is like so
+
+      switch#conf t
+      switch(config)#enable password <PASSWORD>
+      
+- Now when a new connection moved from User mode to User Exec mode using the "enable" command they will be prompted for the password
+- The issue with this process is that the password we set is stored in the running-configuration file in plain view
+- We can perform the same action, but instead hash our password so it is unreadable in the running-configuration file
+
+      switch#en
+      switch(config)#enable secret <PASSWORD>
+      
+- At this point if we viewed the running-configuration file we would see that only the "secret" enable password is encrypted, both the Console and VTY line level
+  passwords are also in plain text, however we can encrypt both of these also
+  
+      switch#conf t
+      switch(config)#service password-encryption
+      
+
+      
       
