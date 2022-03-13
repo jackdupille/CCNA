@@ -1,0 +1,37 @@
+AAA - Authentication, Authorisation and Accounting
+
+- Line security has a scalability issue as all devices need configuring manually
+- AAA servers centralise this process
+- Multiple AAA servers can be used for redundancy
+  - Authentication: Verifies someone is who they claim to be. Achieved with a username and password
+  - Authorisation: Specifies what a particular user is allowed to do.
+  - Accounting: Keeps track of individual users actions
+- Authorisation and Accounting are optional, Authentication is required either of the other two are used
+
+# AAA Protocols
+
+- RADIUS and TACACS+ are the protocols used by AAA servers
+- Both are open standards
+- RADIUS is commonly used for end user level services such as VPN access
+- TACACS+ is commobly used for administrator access on Cisco devices, and has more ranular authorisation capabilities
+
+# How AAA servers work
+
+- An admin will SSH on to a router, the router will challenge the SSH session by asking for a username and password
+- The admin enters their username and password
+- If local authentication was being used, then the router would perform the verification itself at this point
+- However the admins username and password are stored externally on the AAA server
+- The router uses RADIUS or TACACS+ (preferrably TACACS+ for this usage) to send the entered username and password to the AAA server
+- The AAA server will check if the username and password are valid or not and notify the router
+- The AAA server may also send optional Authentication information about the user back to the router, such as their privilege level and what commands they can use
+
+# AD Integration
+
+- We can move the user database form the AAA server to the AD Domain Controller
+- Whwn the router sends the entered username and password to the AAA server, the AAA server use LDAP (Lightweight Directory Access Protocl) to send the username
+  and password to the AD Domain Controller
+- The AD Domain Controller will then tell the AAA server if the username and password are valid or not
+- THe AAA server then notifies the router and sends any optiona Authorisation information
+
+# Configuration
+
