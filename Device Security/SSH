@@ -16,7 +16,7 @@ SSH - Secure Shell
     router(config-line)#transport input ssh
     router(config-line)#login local
     router(config-if)#exit
-    router(config)#ssh version 2
+    router(config)#ip ssh version 2
     
 # SSH Acces
 
