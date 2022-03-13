@@ -1,0 +1,26 @@
+SSH - Secure Shell
+
+- Telnet sends all data such as usernames and passwords between your workstation and the network device in plain text, so is insecure
+- SSH encrypts all traffic
+- A digital certificate with a key length of at last 768 bits must be generated to enable SSH
+
+# SSH Configuration
+
+    router#conf t
+    router(config)#ip domain-name <DOMAIN NAME>
+    router(config)#crypto key generate rsa
+        How many bits in the modulus [512]: 768
+        % Generating 768 bit RSA keys...
+    router(config)#username jack password jackiscool    <- SSH requires individual usernames and passwords, line level is not permitted
+    router(config)#line vty 0 15
+    router(config-line)#transport input ssh
+    router(config-line)#login local
+    router(config-if)#exit
+    router(config)#ssh version 2
+    
+# SSH Acces
+
+- We can access a host via SSH with the following command, the "-l" flag indicates login, then the username to login with and the target device IP
+
+    workstation>ssh -l jack <TARGET IP>
+    
