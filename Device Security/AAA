@@ -33,5 +33,31 @@ AAA - Authentication, Authorisation and Accounting
 - The AD Domain Controller will then tell the AAA server if the username and password are valid or not
 - THe AAA server then notifies the router and sends any optiona Authorisation information
 
-# Configuration
+# RADIUS Configuration
 
+- Create a babckup local username and password
+- We will configure two RADIUS servers for redundancy
+- The create a RADIUS group and add both servers to that group
+- Lastly we enable AAA authentication, it will default to using the AAA group first, if that fails maybe due to connectivity to the AAA server it will use any
+  local username and password, therefore it is always est to confiure an Administrator username and password locally
+
+      router#conf t
+      router(config)#username BackupAdmin password admin
+      router(config)#aaa new-model
+      router(config)#radius sverer Server1
+      router(config-radius-server)#address ipv4 <SERVER IP>
+      router(config-radius-server)#key <PASSWORD>   <- Must match on the AAA Server
+      
+      router(config-radius-server)#radius server Server2
+      router(config-radius-server)#address ipv4 <SERVER2 IP>
+      router(config-radius-server)#key <PASSWORD 2>   <- Must match on the AAA Server
+      
+      router(config-radius-server)#aaa group server radius <RADIUS GROUP NAME>
+      router(config-sg-radius)#server name Server1
+      router(config-sg-radius)#server name Server2
+      
+      router(config-sg-radius)#aaa authentication login default group <RADIUS GROUP NAME> local
+      
+# TACACS+ Configuration 
+
+- The TACACS+ configuration is identical to the RADIUS configuration, just substitute and "radius" keywords for "tacacs"
