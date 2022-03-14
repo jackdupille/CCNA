@@ -64,7 +64,10 @@ Syslog
 
 - When a syslog message is displayed, it will be displaye in the middle of your command, to prevent this use the following command
 
-    router(config)#logging synchronous
+    router(config)#line console 0
+    router(config-line)#logging synchronous
+    router(config-line)#line vty 0 15
+    router(config-line)#logging synchronous
     
 - This wont stop the message from coming up, but will return you to the prompt and reprint your command from where it was interrupted
 
