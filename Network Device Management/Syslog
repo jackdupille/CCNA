@@ -1,0 +1,76 @@
+Syslog
+
+- There is a set standard format to a Syslog message
+- The format is ass follows:
+
+        seq no : time stamp : %facility-severity-MNEMONIC : description
+        
+- Example:
+
+      *Oct 3 00:44:12.627: %LINK-5-CHANGED: Interface FastEthernet0/0, chaned state to administratively down
+      
+- seq no: Optional
+- time stamp: Month Day time
+- facility: %LINK
+    - Indicates something with a link has changed, could just as likely be %OSPF if something with OSPF changed etc
+- severity: 5
+    - 8 severity levels, 0-7. 0 is the most severe
+- MNEMONIC: CHANGED
+    - Very brief "description"
+- description: Interface FastEthernet0/0, chaned state to administratively down
+
+# Severity Levels
+
+  0: Emergency: System is unusable
+  1: Alert: Condition should be correted immediately, such as a corrupted database
+  2: Critical: Hard drive failures etc
+  3: Error: Error conditions
+  4: Warning: Warning conditions
+  5: Notice: Normal but significant conditions, may require special handling, but not errors
+  6: Informaional: Information messages
+  7: Debug: Debugging messages
+  
+# Logging Locations
+
+  - Console Line: Enabled by default, at level 0 and up
+  - VTY Line: Not enabled by default
+  - The logging Bugger: Events saved in RAM, can be viewd with the "show logging" command, enabled by default
+  - Remote Syslog server: 
+  
+# Logging Configurations
+
+  # Console (enabled by default)
+  
+      router(config)#no logging console   <- disable console logging
+  
+  # VTY
+  
+      router(config)#logging monitor 6    <- Monitoring messages from 0-6
+      
+  # Logging Buffer
+  
+      router(config)#logging buffered debugging   <- Log everything,0-7
+      
+  # External Syslog server
+  
+      router(config)#logging <SERVER IP>
+      router(config)# logging trap debugging
+      
+# Verification
+
+    router#show logging
+    
+# Logging Synchronous
+
+- When a syslog message is displayed, it will be displaye in the middle of your command, to prevent this use the following command
+
+    router(config)#logging synchronous
+    
+- This wont stop the message from coming up, but will return you to the prompt and reprint your command from where it was interrupted
+
+# Terminal Monitor
+
+- Enable debug messages over VTY
+
+    router(config)#terminal monitor
+    
