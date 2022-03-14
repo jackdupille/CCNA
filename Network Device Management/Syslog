@@ -72,5 +72,5 @@ Syslog
 
 - Enable debug messages over VTY
 
-    router(config)#terminal monitor
+    router#terminal monitor
     
