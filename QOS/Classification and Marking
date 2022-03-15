@@ -1,0 +1,39 @@
+Classification and Marking
+
+- Common ways for a router or switch to recognise different traffic types
+  1. CoS (Class of Service) - Layer 2 marking
+  2. DSCP (Differentiated Service Cide Point) - Layer 3 marking
+  3. ACLs
+  4. NBAR (Network Based Application Recognition)
+  
+# CoS - Class of Service
+
+  - 3-but field in the L2 802.q ethernet header used for carrying the CoS marking
+  - Can be a value of 0-7, default is 0 which is Best Effort Traffic
+  - CoS 6 and 7 are reserved for network use
+  - IP Phones mark their call signalling as CoS 3 and their voice payload as CoS 5
+  - The higher the CoS value, the more important the traffic
+
+# DSCP - Differentiast Services Code Point
+
+  - The ToS (Type of Service) byte in the L3 IP header is used to carry the DSCP QoS marking
+  - 6 bits are used, giving 64 possible values, default of 0 which is Best Effort Traffic
+  - IP Phones mark their call signalling traffic as 24 (CS3) and their voice payload as 46 (EF)
+  - There are standard markings for other traffic types, such as 26 (AF21) for mission critical data and 34 (AF41) for Standard Definition video
+  - High Definition video use CS4
+  - The alphanumeric values (CS3) are just codes for each DSCP numeric value
+  
+# The Trust Boundary
+
+  - We have a PC connected to an IP phone which is then connected to a switch and on to the router
+  - The IP phone will create its own packets and apply its own CoS and DSCP markings, the switch needs to trust data from the IP phone to ensure it is handled with
+    a higher priority
+  - The switch also needs to NOT trust any markings within packets form the PC behind the IP Phone
+
+- Voice and Video endpoints can mark their own packets with CoS and DSCP values
+- Data applications between end hosts and servers are unlikely to be able to add QoS and DSCP values themselves, so we have to do it manually
+- If we want to apply a DSCP value to SSH traffic for example, we need to configure an ACL as close to the source as possible, likely on a L3 switch, we can
+  then add a DSCP value here
+  
+- At this point, there is no QoS applied to any traffic, Classification and Marking is simply the process of identifying which traffic to prioritise, we still
+  need to take an action on that traffic for QoS to be working, this is done via Queuing
