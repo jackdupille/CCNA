@@ -1,0 +1,40 @@
+SNMP - Simple Network Management Protocol
+
+- The SNMP Manager (SNMP Server) can collect and organise information from an SNMP Agent
+- The SNMP Manager is commonly called the SNMP Server or NMS (Network Management System)
+
+- The SNMP Manager can pull information from the SNMP Agent with a "GET" request, or the Agent can push it to the Manager with a "TRAP"
+- Data variables are organised in the MIB (Management Information Database)
+- Both the Manager and Agent need to share the MIB, so they know which variables can be reported on
+
+# SNMP Versions
+
+  1. SNMPv1 - Uses plain text authentication, using matching Community Strings
+  2. SNMPv2 - Also uses plain Community Strings for authentication, but supports bulk retrieva3
+  3. SNMPv3 - Supports strong authentication and encryption. Preferred version but not supported on all devices
+            - 3 security levels are available:
+                1. noAUthnoPriv - no authentication password is exchanged, communications are unencrypted
+                2. AuthnoPriv - Password authentication is used. Communications are unencrypted
+                3. AuthPriv - Passwrod authentication is used. Communications are encrypted
+  
+# SNMPv2 Configuration
+
+    1. Set up contact and location inforamtio (optional)
+    2. Set up read-only and read/write community strings
+    3. Set up host server and community string to be used to communicate with it
+    4. Set up type of TRAP to be sent, this example means a message will be sent when someone enters "conf t"
+
+    router(config)#snmp-server community Flackbox1 ro   <- read-only
+    router(config)#snmp-server community Flackbox2 rw   <- read and write
+    router(config)#snmp-server host 10.0.0.100 Flackbox1  <- Use the read-only community string when sending messages to the Manager
+    router(config)#snmp-server enable traps config  <- When a config change, a "trap" message will be sent to the NMSa t 10.0.0.100
+    
+# SNMPv3 Configuration
+
+    1. Configure the snmp server group and security level
+    2. Configure user
+    3. Configure matching user on the SNMP Server
+
+    router(config)#snmp-server group Flackbox-group v3 priv   <- Using AuthPriv 
+    router(config)#snmp-server user Flackbox-user Flackbox-group v3 auth sha <AUTH-PASSWORD> priv aes 256 <PRIV-PASSWORD>
+   
