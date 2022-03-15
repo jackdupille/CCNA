@@ -1,0 +1,19 @@
+Queuing
+
+- Used to manage congestion on routers and switches
+
+# Congestion Management
+
+- CBWFQ (Class Based Weighted Fair Queuing) - gives bandwidth guarantees to specific traffic types
+- LLQ (Low Latency Queuing) - Is CBWFQ with a priority queue
+  - Traffic in the priority queue is sent first
+
+- QoS Queuing is configured using the MQC (Modular QoS CLI)
+
+# MQC (Modular QoS CLI)
+
+- 3 main sections
+  1. Class Maps - Define the traffic to take action on
+  2. Policy Maps - Takes the action on that traffic
+  3. Service Policies - APplies the Policy to an interface
+  
