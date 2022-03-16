@@ -1,0 +1,15 @@
+Cloud Computing
+
+- There are traditional deployment models such as "On-Premises" and "Co-lo (Co-Location)"
+- On-Prem means all the hardware is on site, you own it, you install the software, rack it up, cable it up and maintain it etc
+- Co-Lo means you own the physical hardware and are in charge of installing software and maintaining it, but a Data Centre provider rents out a space for you in
+  their data centre, they provide the cooling, rack space, network infrastructure, physical security etc
+  
+  
+# Cloud Computing Characteristics
+
+- On-demand self service: Spin up a new server immediately
+- Rapid Elasticity: Increase/decrease resources quickly
+- Broad Network Access: System can be accessed from anywhere on any platform (Laptop, desktop, thin client, smart phone, tablet etc)
+- Resource Pooling: Providers resources are pooled and shared amoungst all customers, reducing customer cost
+- Measures Service: Monthly fee that is billed based on usage
