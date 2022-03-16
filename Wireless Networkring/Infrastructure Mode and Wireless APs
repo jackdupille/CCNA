@@ -1,0 +1,50 @@
+Infrastructure Mode and Wireless APs
+
+# Wireless Access Points
+
+  - Provide connectivity between wireless stations, and between the wireless stations and the cabled network
+  - Wireless operates in half duplex
+  - Only one device can communicate at one
+
+# BSS (Basic Service Set)
+
+  - An Access Point centralises access and control over a group of wireless devices
+  - The devices and their wireless settings make up a BSS
+  - In other words, the AP and the devices connected to it, make up the Basic Service Set
+  
+# DS (Distribution System)
+
+  - Connects a wireless AP to a wired network
+  - Basically an AP connected via ethernet cable to a switch on the wired network
+  
+# BSSID (Basic Service Set IDentifier)
+
+  - Devices with a BSS are identified by their BSSID which is based on their MAC address
+    
+# BSA (Basic Service Area)
+
+  - The wireless coverage area of an AP
+  - Also known as a wireless cell
+  
+# SSID (Service Set IDentifier)
+
+  - Unique identifier that names the wireless network, such as "Guest-WiFi"
+  
+# Multiple SSIDs
+
+  - A single AP can support multiple SSIDs
+  - Different SSIDs can have different security settings and be mapped to different VLANs
+  
+# Beacons
+
+  - APs can broadcast information about the WLANs (including SSIDs and authentication requirements) using beacon frames
+  - This feature can be disabled
+  
+# ESS (Extended Service Set)
+
+  - The same SSID can be supported across multiple APs to increase the coverage area
+  - The neighboring APs should use different channels to avoid interferring with each other
+  
+# Roaming
+
+  - Wireless clients/stations can roam across wireless APs supporting the same WLANs
