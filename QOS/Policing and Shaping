@@ -1,0 +1,8 @@
+Policing and Shaping
+
+- Used to control traffic rates
+- They both measure the rate of traffic through an interface and take action if the rate is above a configured limit
+- Shaping buffers any excess traffic so the overall traffic stays within the desired rate limit
+- Policing drops or remarks excess traffic to enforce the specified rate limit
+- Classification can be used to allow different rate for different traffic types
+
