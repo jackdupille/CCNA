@@ -1,0 +1,20 @@
+Cloud Deployment Models
+
+# Public Cloud
+
+- Most common deployment
+- AWS, Microsoft Azure, IBM Bluemix, SalesForce etc
+
+# Private Cloud
+
+- Exclusive use by a single organisation comprising multiple customers, like business units
+- Workds the same way as Public Cloud, but the services are provided to internal customers
+
+# Community Cloud
+
+- Provisioned for exclusive use by a specific community of consumers from organisations that have shared concerns
+- Least common, sometimes used in government environments
+
+# Hybrid Cloud
+
+- Consusts or two or more distinct cloud infrastructures
