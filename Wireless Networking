@@ -1,0 +1,35 @@
+Wireless Networking
+
+- WiFi services are defined in the IEEE 802.11 standards
+
+# Network Types
+
+  - WPAN: Wireless Personal Area Network
+    - Devices are with 10 metres of each other, bluetooth is often used
+  
+  - WLAN: Wireless Local Area Network
+    - Provides access to a campus (typically wired), without the need for a cable
+    - Devices are within 100 metres of an AP (Access Point)
+    
+  - WMAN: Wireless Metropolitan Area Network
+    - Covers a large area such as a city
+    
+# Ad Hoc Mode
+
+  - Devices connect to and communiate with each other directly, no AP is involved. Peer-to-peer network
+  - The area of connected devices is known as an IBSS (Independant Basic Service Set)
+  - Scalbility issue
+    
+# Infrastructure Mode
+
+  - Wireless stations (laptops, phones etc) communicate via a Wireless Access Point (AP)
+
+- Devices can use both Ad Hoc or Infrastructure Mode, but not at the same time
+
+# WiFi Direct
+
+  - Allows devices to be connected to an AP and also be part of a peer-to-peer wireless network
+  - Does not operate in Ad Hoc IBSS mode, it is an extension to Infrastructure Mode
+  - WPS WiFi Protected Setup enables communication setup at the press of a button
+  - Technically a WPAN
+  
