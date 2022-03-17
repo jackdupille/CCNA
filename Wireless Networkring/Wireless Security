@@ -1,0 +1,14 @@
+Wireless Security
+
+# Security Standards
+
+  - WEP (Wired Equivilant Privacy): 1999 - RC4 Encryption
+  - WPA (WiFi Protected Access): 2003 - RC4 Encryption, TKIP (Temporal Key Integrity Protocol)
+  - WPA2: 2004 - AES Encryption, CCMP (Counter Cipher Mode with Block Chaining Message Authentication Code protocol)
+  - WPA3: 2018 - AES Encryption, CCMP, protection against KRACK attack
+  
+# WPA Personal and WPA Enterprise
+
+  - Personal uses pre-shared keys (PSKs)
+  - Enterprise uses an AAA server
+  
