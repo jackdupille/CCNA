@@ -1,0 +1,36 @@
+Switch Configuration
+
+- If Autonomous APs are being used, the AP itself will tag any traffic with relevant VLAN tags
+- The connection between the AP and the switch will need to be a trunk port
+- The switch will obviously need to have the VLANS configured on it also
+
+    switch(config)#vlan 20
+    switch(config-vlan)#name Corporate
+    switch(config-vlan)#vlan 21
+    switch(config-vlan)#name Guest
+    
+    switch(config-vlan)#interface gi0/0                     <- Interface connected to the AP
+    switch(config-if)#switchport trunk encapsulation dot1q
+    switch(config-if)#switchport mode trunk
+    switch(config-if)#switchport trunk allowed vlan 20,21
+    
+- If there is a WLC in place, then the AP will not tag any traffic
+- Any VLAN tagging will be performed by the WLC
+- All traffic from the AP to the WLC will be in the Management VLAN
+- Therefore the link between the AP and the switch can be a plain Access port, but the link between the switch and the WLC now needs to be a trunk port
+
+- We will need to configure a VLAN for WLC management and another VLAN for AP management, one VLAN can be used for both if preferred
+  
+    switch(config)#vlan 10
+    switch(config-vlan)#name WLC-Management
+    switch(config-vlan)#vlan 11
+    switch(config-if)#name AP-Management
+    
+    switch(config)#int g0/1                                 <- Interface connected to WLC
+    switch(config-if)#switchport trunk encapsulation dot1q
+    switch(config-if)#switchport mode trunk
+    switch(config-if)#switchoprt trunk allowed vlan 10,11,20,21
+    switch(config-vlan)#interface gi0/0                     <- Interface connected to the AP
+    switchport(config)#switchport mode access
+    switchport(config)#switchport access vlan 11    <- Add interface connected to the AP in to the AP Management VLAN
+    
