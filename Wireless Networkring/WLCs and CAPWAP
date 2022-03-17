@@ -1,0 +1,63 @@
+WLCs and CAPWAP
+
+  - WLCs (Wireless LAN Controllers) can be used a central management popint for APs
+
+# Autonomous vs Lightweight APs
+
+  - Autonomous APs are also called Standalone APs, meaning it is confiured and controlled independently
+  - Lightweight APs are APs that are controlled via a WLC
+  - The installed software image is the determining factor
+  
+# Zero Touch Provisioning
+
+  - Lightweight APs support Zero Touch Provisioning
+  - They discover their WLC via these three methods:
+    1. DHCP: Option 43 gives the IP address of the WLC
+    2. DNS: "cisco-capwap-controller" resolves the IP address of the WLC
+    3. Local subnet broadcast
+    
+  - Once the AP has located the WLC, it will connect to it and download its configuration
+  - This includes what WLANs it should support and their settings
+  - The WLC also monitors the wireless quality and controls the channels and power of the AP
+  - The WLC can also deteect rogue APs
+  
+# Roaming
+
+  - APs can supprt roaming so devices will connect to additional APs as they move around the office space
+  - If authentication is handled by each AP seperately, then there will be a break in service as your device re-authenticates with the nearest AP
+  - Using a WLC, authentication can be moved to the WLC and make roaming seamless
+  
+# CAPWAP (Control And Provisioning of Wireless Access Points)
+
+  - Standardised protocl that enables WLCs to manage a collection of APs
+  - Communications are encrypted inside a DTLS CAPWAP tunnel
+  - Uses UDP ports 5246 and 5247
+  
+# Split MAC
+
+  - Works is moved from the APs to the WLC, hence the name Lightweight APs
+  - Real-time traffic is still handled by the AP in order to provide suitable performance, everything else is handled by the WLC
+  - This is known as "Split MAC"
+  - AP Operations:
+      1.Client handshake wheen connecting
+      2. Beacons
+      3. Performance monitoring
+      4. Encryption and Decryption
+      5. Clients in power save
+  - WLC Operations:
+      1. Autnentication
+      2. Roaming Control
+      3. 802.11 to 802.3 communications
+      4. Radio Frequency management
+      5. Security management
+      6. QoS management
+      - If a WLC is being used, all traffic from a wireless client/station will flow through the WLC, which will then forward it on to the destination
+      - Management traffic between the AP anWLC will also pass through the CAPWAP tunnel
+      - An Etherchannel (LAG) is often used for the connection between the WLC and the network switch
+      
+# FlexConnect
+
+  - If their is a Main office with the WLC and a remote branch office with APs, if two wireless clients at the branch offce want to communicate,
+    traffic would have to go over the CAPWAP tunnel on the WAN link to the WLC and back, which is not desirable
+  - FlexConnect mitigates this and forwards traffic locally, useful if the breanch office does not have a WLC
+
