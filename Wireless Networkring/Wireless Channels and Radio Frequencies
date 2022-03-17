@@ -1,0 +1,39 @@
+Wireless Channels and Radio Frequencies
+
+- WiFi operates in the 2.4GHz > 5.0 GHz range
+
+# 802.11 Standards
+
+            802.11      802.11a       802.11b       802.11g       802.11n       802.11ac
+  Year      1997        1999          1999          2003          2009          2013
+  Freq      2.4         5             2.4           2.4           2.5/5         5
+  
+  
+# 2.4GHZ spectrum
+
+  - Ranges from 2.4 -> 2.4835GHz
+  - Divided in to smaller 22MHz ranges of frequencies called "channels"
+  - Each AP operates in one channel
+  - Some channels overlap and can cause interference with each other
+  - Access Points with overlapping services should use non-overlapping channels
+  - The channel 1, 6 and 11 are commonly used
+
+# 5GHz spcectrum
+
+  - The channels are 20MHz wide, not 22
+  - Less overlap that the 2.4GHz range
+  - Neighboring APs should be at least 1 channel apart
+  - Channels can be bonded (40, 80 or 160MHz) wide to multiply data rates by 2x, 4x or 8x
+ 
+# Interference
+
+  - The 2.4GHz range is unlicenced meaning many devices can connect to it, increasing the chance of interference
+
+# Comparison
+
+  - 2.4GHz has a greater range and better propagation through objects
+  - 2.4GHz is more crowded, leading to higher chance of interference
+  - 5GHz 802.11ac has higher throughput than is capable with 2.4GHz
+  - Your wireless clients may only be compatible with 2.4GHz
+  
+
