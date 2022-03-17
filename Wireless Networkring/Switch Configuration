@@ -6,8 +6,10 @@ Switch Configuration
 
     switch(config)#vlan 20
     switch(config-vlan)#name Corporate
-    switch(config-vlan)#vlan 21
+    switch(config-vlan)#interface vlan 20
+    switch(config-if)#vlan 21
     switch(config-vlan)#name Guest
+    switch(config-vlan)#interface vlan 21
     
     switch(config-vlan)#interface gi0/0                     <- Interface connected to the AP
     switch(config-if)#switchport trunk encapsulation dot1q
@@ -19,12 +21,20 @@ Switch Configuration
 - All traffic from the AP to the WLC will be in the Management VLAN
 - Therefore the link between the AP and the switch can be a plain Access port, but the link between the switch and the WLC now needs to be a trunk port
 
-- We will need to configure a VLAN for WLC management and another VLAN for AP management, one VLAN can be used for both if preferred
+- We will need to configure a VLAN for WLC management traffic
   
     switch(config)#vlan 10
     switch(config-vlan)#name WLC-Management
-    switch(config-vlan)#vlan 11
-    switch(config-if)#name AP-Management
+    switch(config-vlan)#interface vlan 10                   <- SVI to act as the gateway
+    switch(config-if)#ip address 192.168.10.1 255.255.255.0
+    
+- We also want our APs to get an IP and connect to the WLC to pull down their configuration, so we can configure a DHCP scope on the switch
+
+    switch(config)#ip dhcp excluded-address 192.168.10.1 192.168.10.100
+    switch(dhcp-config)#ip dhcp pool Management
+    switch(dhcp-config)#network 192.168.10.0 255.255.255.0
+    switch(dhcp-config)#default-router 192.168.10.1
+    switch(dhcp-config)#option 43 ip 192.168.10.1   <- Used so APs can locate the WLC when on a different subnet
     
     switch(config)#int g0/1                                 <- Interface connected to WLC
     switch(config-if)#switchport trunk encapsulation dot1q
