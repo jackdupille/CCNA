@@ -1,0 +1,31 @@
+Automation and Programmability Benefits
+
+- Can be used for:
+    - Device Configuration
+    - Initial device provisioning
+    - Software version control
+    - Collecting statistics from devices
+    - Compliance verification
+    - Reports
+    - Troubleshooting
+    
+- Network programmability enables automation, reducing human to machine interaction
+- Recuces likelihood of human error
+- More salable than configuring one device at a time
+- Provides configuration and software version control
+
+# Automation Methods
+
+  - There are multiple ways to implement network automation
+      1. Python scripts
+      2.NETCONF
+      3. RESTCONF
+      4. Ansible
+      5. Puppet
+      6. Chef
+      7. SDN
+      8. Cisco DNA Center
+      and more
+      
+  - Not all methods are supported by all devices
+
