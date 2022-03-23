@@ -1,0 +1,25 @@
+Router IP Address
+
+- Add an IP address to a router interface for the 192.168.0.0/24 subnet
+
+    router#conf t
+    router(config)#interface fa0/1
+    router(config-if)#ip address 192.168.0.1 255.255.255.0
+    router(config-if)#no shutdown
+    
+Layer 2 Switch Management IP Address
+
+- Layer 2 switches can accept one IP address, placed on an SVI (Switched Virtual Interface) to management connectivity
+- By default this will be VLAN 1, but should be changed for security purposes
+- Management personnel maybe in a different subnet so the switch will also need a default gateway like any other device
+
+    switch#conf t
+    switch(config)#vlan 101
+    switch(config-vlan)#name Management
+    switch()config-vlan(#interface vlan 101
+    switch(config-if)#ip address 192.168.101.101
+    switch(config-if)#no shutdown
+    switch(config-if)#exit
+    switch(config)#ip default-gateway 192.168.101.1
+    
+- THe switch can now be access on 192.168.101.101 by devices in another subnet
