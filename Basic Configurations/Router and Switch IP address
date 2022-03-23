@@ -22,4 +22,5 @@ Layer 2 Switch Management IP Address
     switch(config-if)#exit
     switch(config)#ip default-gateway 192.168.101.1
     
-- THe switch can now be access on 192.168.101.101 by devices in another subnet
+- We can now configure Telnet or SSH, see Switch Security documentation   
+- The switch can now be access on 192.168.101.101 by devices in another subnet
