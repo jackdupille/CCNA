@@ -32,6 +32,29 @@ NOTE - All protocols are configured using the "channel-group" command
 	- Native VLAN and allowed VLANs on trunk ports
 	- Access VLAN on access ports
 	
+### Load Balance Parameters
+
+- The switch will perform a calculation to determine which interface within the LAG to forward traffic over
+- Traffic between a particular source and destination is known as traffic flow and each traffic flow will be sent over one particular interface,
+  not load balanced, this is to avoid out of order packets reaching the destination host
+- The traffic flow over a particular link can be determined by number of values, such as
+
+	1. The source MAC address of the frame
+	2. THe destination MAC address of the frame
+	3. The source and destination MAC address of the frame
+	4. The source IP of the frame
+	5. The destination IP of the frame
+	6. The source and destination IP of the frame
+	
+- The method available methods can change from switch model to switch model
+- To configure this use the folloing command
+
+	switch#conf t
+	switch(config)#port-channel load-balance ?	<- Use context sensitive help to see available method options
+	
+- To view the configured method
+
+	switch#show etherchannel load-balance	
 
 ### LACP Configuration
 
