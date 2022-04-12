@@ -73,3 +73,13 @@ IPv6 and Neighbor Discovery Protocol (NDP)
     - The router announces its presence as well as other inforamtion about the network
     - These messages are sent in response to an RS message
     - They are also sent periodically, even if the router has not received an RS message
+
+
+### Duplicate Address Detection (DAD)
+
+- Allows hosts to check if other devices on the local subnet are using the same IPv6 address
+- Any time an IPv6 enabled interface initialises (no shutdown) or an interface is configured using SLAAC etc, it performs DAD
+- DAD uses two messages, Neighbor Solicitation (NS) and Neighbor Advertisemant (NA)
+- The host will send an NS message to its own Solicited Multicast Address, if it doesn't get a reply it knows there are no other devices on the network
+  using that same address
+- However if it does receive an NA then it knows there is a duplicate address
