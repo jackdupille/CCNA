@@ -1,0 +1,75 @@
+IPv6 and Neighbor Discovery Protocol (NDP)
+
+- The IPv6 Header is simpler than the IPv4 Header
+- The IPv4 Header has a variable length, 20-60 Bytes
+- The IPv6 Headaer has a fixed length of 40 Bytes
+
+### Fields
+
+1. Version:
+  - 4 bits in length
+  - Indicates the version of IP used, fixed value of 0b0110 (6)
+ 
+2. Traffic Class:
+  - 8 bits in length
+  - Like the DSCP field in IPv4, it is used for QoS
+
+3. Flow Label:
+  - 20 bits in length
+  - Used to identify specific traffic flow between a source and destination
+  
+4. Payload Length:
+  - 16 bits in length
+  - Used to identify the size of the encapsulated Layer 4 segment in bytes
+  - The IPv6 header is not included as it has a fixed size of 40 bytes
+  
+5. Next Header:
+  - 8 bits in length
+  - Indicates the type of the next header, TCP or UDP for example
+  - Same function as the Protocol field in the IPv4 header
+  
+6. Hop Limit:
+  - 8 bits
+  - Value is decremented by 1 by each router that forwards it, if the value reaches 0 the packet is dropped
+  - Same function as the IPv4 TTL field
+  
+7. Source:
+  - 128 bits in length
+  - Containis the sending devices IPv6 address
+  
+8. Destination:
+  - 128 bits in length
+  - Contains the receiving devices IPv6 address
+  
+  
+### Solicited Node Multicast Addresses
+
+- These are a special multicast address that is formed by combining FF02::1:FF and the last 6 hexadecimal digits of the interfaces global unicast address
+- For example an interface with the global unicast address of 2001:db8:ef8:22ff:fe36:8500 would have a Solicited Node address of:
+
+  ff02::1:ff36:8500
+
+### Neighbor Discovery Protocol (NDP)
+
+- IPv6 version of ARP
+- NDPs ARP Like function uses ICMPv6 and Solicited Multicast addresses to learn the MAC addresses of other hosts
+- There are two message types:
+  1. Neighbor Solicitation (NS) = ICMPv6 Type 135 - This is the equivilant of an ARP Request
+  2. Neighbor Advertisemant (NA) = ICMPv6 Type 136 - This is the equivilant of an ARP Reply
+  
+- In order to learn a hosts MAC address, the sending device will send a Neighbor Solicitation (NS) address to the neighbors Solicited Multicast Address
+- Unlike ARP which sends a broadcast ARP Request message, the Neigbor Solicitation message only goes to the individual destination host
+- The destination host then simply relpies with a Neighbor Advertisemant (NA) message detailing its MAC address
+
+- NDP also allows host to automatically discover routers on the network
+- There are two messages for this process:
+  1. Router Solicitation (RS) - ICMPv6 Type 133
+    - Sent to multicast address ff02::2 (All Routers)
+    - Asks all routers on the local network to identify themselves
+    - Sent when an interface is enabled or when a host is connected to the network
+    
+  2. Router Advertisemant (RA) - ICMPv6 Type 134
+    - Sent to multicast address ff02::1 (All Nodes)
+    - The router announces its presence as well as other inforamtion about the network
+    - These messages are sent in response to an RS message
+    - They are also sent periodically, even if the router has not received an RS message
