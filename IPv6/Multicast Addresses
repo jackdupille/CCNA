@@ -1,0 +1,24 @@
+Multicast Addresses
+
+- IPv6 does not use Broadcast addresses, instead Multicast is used
+- IPv6 uses the range FF00:/8 for Multicast
+
+### Common Multicast Addresses
+
+                                          IPv6           IPv4
+All nodes/hosts (like a broadcast)      FF02::1        224.0.0.1
+All Routers                             FF02::2        224.0.0.1
+All OSPF Routers                        FF02::5        224.0.0.5
+All OSPF DRs/BDRs                       FF02::6        224.0.0.6
+All RIP Routers                         FF02::9        224.0.0.9
+All EIGRP Routers                       FF02::A        224.0.0.10
+
+### Multicast scopes
+
+- Multicast scopes define how far a packet should be forwarded
+
+- Interface-Local (FF01): The packet does not leave the local device, can be used to send traffic to a service within the local device
+- Link-Local (FF02): The packet remains in the local subnet. Routers will not forward the packet between subnets
+- Site-Local (FF05): The packet can be forwarded by routers, but should be limited to a single physical location, not over a WAN
+- Organisation-Local (FF08): Wider in scope than Site-Local
+- Global (FF0E): No boundaries, possible to be routed over the internet
