@@ -1,4 +1,4 @@
-HSRP - Hot Standyby Routing Protocol
+HSRP - Hot Standby Routing Protocol
 
 - Popular redundancy protocol within Cisco networks
 - Layer 3 redundancy is easy enough to configure using static routes and editing the Administrative Distance (AD)
